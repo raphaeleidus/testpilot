@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
 // the main testpilot.js handles everything, so just
-// require it and we're of to the races
+// require it and we're off to the races
 
 require('../testpilot.js');
