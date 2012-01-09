@@ -22,5 +22,8 @@
       "optimist": ">=0.3.1",
       "ansi-color": ">=0.2.1"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "bin": {
+      "testpilot" : "./bin/testpilot"
+  }
 }
