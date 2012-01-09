@@ -1,0 +1,26 @@
+{
+  "author": "Chris Osborn <chris.osborn@sitelier.com>",
+  "name": "testpilot",
+  "description": "Promise-savvy testing framework.",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Sitelier/testpilot.git"
+  },
+  "main": "testpilot.js",
+  "licenses": {
+    "type": "MIT",
+    "url": "http://www.opensource.org/licenses/mit-license.php"
+  },
+  "engines": {
+    "node": "~0.6.0"
+  },
+  "dependencies": {
+      "capsela-util": ">=1.0.0",
+      "qq": ">=0.3.3",
+      "q-fs": ">=0.1.19",
+      "optimist": ">=0.3.1",
+      "ansi-color": ">0.2.1"
+  },
+  "devDependencies": {}
+}

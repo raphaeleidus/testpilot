@@ -1,0 +1,261 @@
+/**
+ * Copyright (c) 2011 Sitelier Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * Author: Chris Osborn
+ * Date: 1/6/12
+ */
+
+var Q = require('qq');
+var AssertRecord = require('../../lib/AssertRecord').AssertRecord;
+
+var ar;
+
+exports['assertions'] = {
+
+    setUp: function(cb) {
+        ar = new AssertRecord();
+        cb();
+    },
+
+    'ok': function(test) {
+
+        ar.ok(true, 'should be true');
+        ar.ok(false, 'should also be true');
+        ar.ok(Q.ref(true), 'should eventually be true');
+        ar.ok(Q.ref(false), 'should also eventually be true');
+        ar.immediateOk(Q.ref(false), 'should immediately be true');
+
+        ar.getAssertions().then(
+            function(assertions) {
+                test.equal(assertions.length, 5);
+                
+                test.equals(assertions[0].error, undefined);
+                test.equals(assertions[1].error.message, 'should also be true');
+                test.equals(assertions[2].error, undefined);
+                test.equals(assertions[3].error.message, 'should also eventually be true');
+                test.equals(assertions[4].error, undefined);
+
+                test.done();
+            }
+        );
+    },
+
+    'equal': function(test) {
+
+        ar.equal(2, 2, 'should be equal');
+        ar.notEqual(2, 3, 'should not be equal');
+
+        ar.equal(2, 3, 'should also be equal');
+        ar.notEqual(3, 3, 'should also not be equal');
+
+        ar.equal(2, Q.ref(2), 'should eventually be equal');
+        ar.notEqual(2, Q.ref(3), 'should eventually not be equal');
+
+        ar.equal(Q.ref(2), 3, 'should also eventually be equal');
+        ar.notEqual(Q.ref(3), 3, 'should also eventually not be equal');
+
+        ar.immediateEqual(2, 2, 'should immediately be equal');
+        ar.immediateNotEqual(2, 3, 'should immediately not be equal');
+
+        // @TODO: figure out how this should work with respect to promises' valueOf() method
+        ar.immediateEqual(Q.ref(2), 2, 'should immediately be equal');
+        ar.immediateNotEqual(Q.ref(2), Q.ref(2), 'should immediately not be equal');
+
+        ar.getAssertions().then(
+            function(assertions) {
+                test.equal(assertions.length, 12);
+
+                test.equals(assertions[0].error, undefined);
+                test.equals(assertions[1].error, undefined);
+
+                test.equals(assertions[2].error.message, 'should also be equal');
+                test.equals(assertions[3].error.message, 'should also not be equal');
+
+                test.equals(assertions[4].error, undefined);
+                test.equals(assertions[5].error, undefined);
+
+                test.equals(assertions[6].error.message, 'should also eventually be equal');
+                test.equals(assertions[7].error.message, 'should also eventually not be equal');
+
+                test.equals(assertions[8].error, undefined);
+                test.equals(assertions[9].error, undefined);
+
+                test.equals(assertions[10].error, undefined);
+                test.equals(assertions[11].error, undefined);
+
+                test.done();
+            }
+        );
+    },
+
+    'deepEqual and notDeepEqual': function(test) {
+
+        ar.deepEqual([ 1, 2 ], [ 1, 2 ], 'should be equal');
+        ar.notDeepEqual([ 1, 2 ], [ 1, 2 ], 'should not be equal');
+
+        ar.deepEqual([ 1, 3 ], [ 1, 2 ], 'should also be equal');
+        ar.notDeepEqual([ 1, 3 ], [ 1, 2 ], 'should also not be equal');
+
+        ar.deepEqual([ 1, 2 ], Q.ref([ 1, 2 ]), 'should eventually be equal');
+        ar.notDeepEqual([ 1, 2 ], Q.ref([ 1, 2 ]), 'should eventually not be equal');
+
+        ar.deepEqual(Q.ref([ 1, 3 ]), [ 1, 2 ], 'should also eventually be equal');
+        ar.notDeepEqual(Q.ref([ 1, 3 ]), [ 1, 2 ], 'should also eventually not be equal');
+
+        ar.getAssertions().then(
+            function(assertions) {
+                test.equal(assertions.length, 8);
+
+                test.equals(assertions[0].error, undefined);
+                test.equals(assertions[1].error.message, 'should not be equal');
+
+                test.equals(assertions[2].error.message, 'should also be equal');
+                test.equals(assertions[3].error, undefined);
+
+                test.equals(assertions[4].error, undefined);
+                test.equals(assertions[5].error.message, 'should eventually not be equal');
+
+                test.equals(assertions[6].error.message, 'should also eventually be equal');
+                test.equals(assertions[7].error, undefined);
+
+                test.done();
+            }
+        );
+    },
+
+    'strictEqual and notStrictEqual': function(test) {
+
+        ar.strictEqual(1, 1, 'should be equal');
+        ar.notStrictEqual(1, 1, 'should not be equal');
+
+        ar.strictEqual(false, 0, 'should also be equal');
+        ar.notStrictEqual(false, 0, 'should also not be equal');
+
+        ar.strictEqual(3, Q.ref(3), 'should eventually be equal');
+        ar.notStrictEqual(3, Q.ref(3), 'should eventually not be equal');
+
+        ar.strictEqual(Q.ref('3'), 3, 'should also eventually be equal');
+        ar.notStrictEqual(Q.ref('3'), 3, 'should also eventually not be equal');
+
+        ar.getAssertions().then(
+            function(assertions) {
+                test.equal(assertions.length, 8);
+
+                test.equals(assertions[0].error, undefined);
+                test.equals(assertions[1].error.message, 'should not be equal');
+
+                test.equals(assertions[2].error.message, 'should also be equal');
+                test.equals(assertions[3].error, undefined);
+
+                test.equals(assertions[4].error, undefined);
+                test.equals(assertions[5].error.message, 'should eventually not be equal');
+
+                test.equals(assertions[6].error.message, 'should also eventually be equal');
+                test.equals(assertions[7].error, undefined);
+
+                test.done();
+            }
+        );
+    },
+
+    'throws and doesNotThrow': function(test) {
+
+        ar.throws(function() { throw new Error('hiccup'); }, 'should hiccup');
+        ar.doesNotThrow(function() { throw new Error('hiccup'); }, 'should not hiccup');
+
+        ar.throws(function() {}, 'should hiccup');
+        ar.doesNotThrow(function() {}, 'should not hiccup');
+
+        ar.getAssertions().then(
+            function(assertions) {
+                test.equal(assertions.length, 4);
+
+                test.equals(assertions[0].error, undefined);
+                test.equals(assertions[1].error.message, 'hiccup');
+
+                test.equals(assertions[2].error.message, undefined);
+                test.equals(assertions[3].error, undefined);
+
+                test.done();
+            }
+        );
+    },
+
+    'ifError': function(test) {
+
+        ar.ifError(undefined);
+        ar.ifError(new Error('this would be an error'));
+
+        ar.getAssertions().then(
+            function(assertions) {
+                test.equal(assertions.length, 2);
+
+                test.equals(assertions[0].error, undefined);
+                test.equals(assertions[1].error.message, 'this would be an error');
+
+                test.done();
+            }
+        );
+    },
+
+    'expect and getExpected': function(test) {
+        test.equal(ar.getExpected(), undefined);
+        ar.expect(5);
+        test.equal(ar.getExpected(), 5);
+        test.done();
+    }
+
+};
+
+
+exports['deferred arguments'] = {
+
+    'argument promises given limited time to resolve': function(test) {
+        ar = new AssertRecord();
+
+        var slowArg = Q.defer();
+        ar.ok(slowArg.promise);
+
+        ar.getAssertions().then(
+            function(assertions) {
+                test.equal(assertions[0].error.message, 'timed out waiting for assertion arguments to resolve');
+                test.done();
+            }
+        );
+    },
+
+    'argument promise rejection results in assertion failure': function(test) {
+        ar = new AssertRecord();
+
+        ar.ok(Q.reject(new Error('not okay at all')));
+
+        ar.getAssertions().then(
+            function(assertions) {
+                test.equal(assertions[0].error.message, 'not okay at all');
+                test.done();
+            }
+        );
+    }
+
+
+};
+
