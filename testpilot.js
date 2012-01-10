@@ -98,7 +98,6 @@ Q.all(argv._.map(function(p) {
 ).then(
     function(exitCode) {
         setTimeout(function() {
-            console.log('exiting with %d', exitCode);
             process.removeListener('exit', onExit);
             process.exit(exitCode);
         }, 10);
