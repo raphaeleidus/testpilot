@@ -25,8 +25,13 @@
  */
 
 var path = require('path');
-var argv = require('optimist').argv;
-var color = require('ansi-color').set;
+var argv = require('optimist')
+    .usage('Usage: $0 --plain -- paths')
+    .boolean('plain')
+    .describe('plain', 'plain console output, no color')
+    .argv;
+
+var Colorize = require('./lib/Colorize');
 
 var TestRun = require('./lib/TestRun').TestRun;
 var ConsoleReporter = require('./lib/reporters/ConsoleReporter.js').reporter;
@@ -49,6 +54,9 @@ process.on('uncaughtException', function(err) {
     console.log(err.stack);
 });
 
+if (argv.plain) {
+    Colorize.useColor(false);
+}
 
 
 var run = new TestRun();
@@ -69,14 +77,14 @@ Q.all(argv._.map(function(p) {
                 console.log();
                 if (summary.passed) {
 
-                    console.log('All tests %s (%s tests, %s assertions)', color('PASSED', 'green'),
+                    console.log('All tests %s (%s tests, %s assertions)', Colorize.format('PASSED', 'green'),
                         summary.tests.total, summary.assertions.total);
                     console.log();
 
                 } else {
 
                     console.log('%s (%s of %s tests, %s of %s assertions)',
-                        color('FAILED', 'red+bold'),
+                        Colorize.format('FAILED', 'red+bold'),
                         summary.tests.failed, summary.tests.total,
                         summary.assertions.failed, summary.assertions.total);
                     console.log();
@@ -92,7 +100,8 @@ Q.all(argv._.map(function(p) {
 ).then(
     null,
     function(err) {
-        console.log(err);
+        console.log(err.message);
+        console.log(err.stack);
         return 1;
     }
 ).then(
