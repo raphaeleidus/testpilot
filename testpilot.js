@@ -29,7 +29,7 @@ var argv = require('optimist').argv;
 var color = require('ansi-color').set;
 
 var TestRun = require('./lib/TestRun').TestRun;
-var reporter = require('./lib/ConsoleReporter').reporter;
+var reporter = require('./lib/reporters/ConsoleReporter.js').reporter;
 
 var Q = require('qq');
 
