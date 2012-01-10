@@ -33,10 +33,23 @@ var reporter = require('./lib/reporters/ConsoleReporter.js').reporter;
 
 var Q = require('qq');
 
+
+// exit and uncaughtException handlers: These should not be necessary,
+// but are here temporarily to help debug a problem apparently
+// affecting node > 0.5.0
+
 var onExit = function() {
     console.log('Exiting prematurely!');
 };
 process.on('exit', onExit);
+
+process.on('uncaughtException', function(err) {
+    console.log('Uncaught exception!');
+    console.log(err.message);
+    console.log(err.stack);
+});
+
+
 
 var run = new TestRun();
 
