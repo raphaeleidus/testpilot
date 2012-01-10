@@ -33,6 +33,11 @@ var reporter = require('./lib/ConsoleReporter').reporter;
 
 var Q = require('qq');
 
+var onExit = function() {
+    console.log('Exiting prematurely!');
+};
+process.on('exit', onExit);
+
 var run = new TestRun();
 
 // any unnamed arguments are interpreted as paths
@@ -64,9 +69,7 @@ Q.all(argv._.map(function(p) {
                     exitCode = 1;
                 }
 
-                setTimeout(function() {
-                    process.exit(exitCode);
-                }, 10);
+                return exitCode;
             }
         );
 
@@ -75,6 +78,14 @@ Q.all(argv._.map(function(p) {
     null,
     function(err) {
         console.err(err);
-        process.exit(1);
+        return 1;
+    }
+).then(
+    function(exitCode) {
+        setTimeout(function() {
+            console.log('exiting with %d', exitCode);
+            process.removeListener('exit', onExit);
+            process.exit(exitCode);
+        }, 10);
     }
 );
