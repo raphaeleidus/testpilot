@@ -29,7 +29,7 @@ var argv = require('optimist').argv;
 var color = require('ansi-color').set;
 
 var TestRun = require('./lib/TestRun').TestRun;
-var reporter = require('./lib/reporters/ConsoleReporter.js').reporter;
+var ConsoleReporter = require('./lib/reporters/ConsoleReporter.js').reporter;
 
 var Q = require('qq');
 
@@ -61,6 +61,8 @@ Q.all(argv._.map(function(p) {
         return run.run().then(
             function(summary) {
 
+                // only ConsoleReporter supported for now
+                var reporter = new ConsoleReporter();
                 reporter.report(run);
 
                 var exitCode = 0;
@@ -90,7 +92,7 @@ Q.all(argv._.map(function(p) {
 ).then(
     null,
     function(err) {
-        console.err(err);
+        console.log(err);
         return 1;
     }
 ).then(
