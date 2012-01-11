@@ -35,6 +35,10 @@ exports['some tests'] = {
         test.ok(false);
         test.equals(1, 2);
         test.done();
+    },
+
+    test2c: function(test) {
+        throw new Error('panic');
     }
 
 };

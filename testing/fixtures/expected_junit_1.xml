@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-    <testsuite name="Test3Test" tests="1" failures="0">
+    <testsuite name="Test3Test" errors="0" failures="0" tests="1">
         <testcase name="test3a">
         </testcase>
     </testsuite>
-    <testsuite name="Test1Test" tests="2" failures="1">
+    <testsuite name="Test1Test" errors="0" failures="1" tests="2">
         <testcase name="test1a">
         </testcase>
         <testcase name="test1b">
@@ -12,12 +12,15 @@
             <failure message="AssertionError: these things should match" />
         </testcase>
     </testsuite>
-    <testsuite name="Test2Test" tests="2" failures="1">
+    <testsuite name="Test2Test" errors="1" failures="1" tests="3">
         <testcase name="some tests : test2a">
         </testcase>
         <testcase name="some tests : test2b">
             <failure message="AssertionError: false == true" />
             <failure message="AssertionError: 1 == 2" />
+        </testcase>
+        <testcase name="some tests : test2c">
+            <failure message="Error: panic" />
         </testcase>
     </testsuite>
 </testsuites>

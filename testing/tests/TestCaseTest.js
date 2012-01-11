@@ -107,6 +107,7 @@ exports['test function control'] = {
 
                 test.deepEqual(summary, {
                     passed: false,
+                    errored: true,
                     assertions: {
                         total: 1,
                         failed: 0
@@ -134,6 +135,7 @@ exports['test function control'] = {
 
                 test.deepEqual(summary, {
                     passed: false,
+                    errored: true,
                     assertions: {
                         total: 0,
                         failed: 0
@@ -163,6 +165,7 @@ exports['test function control'] = {
 
                 test.deepEqual(summary, {
                     passed: false,
+                    errored: true,
                     assertions: {
                         total: 0,
                         failed: 0
@@ -191,6 +194,7 @@ exports['test function control'] = {
 
                 test.deepEqual(summary, {
                     passed: false,
+                    errored: true,
                     assertions: {
                         total: 0,
                         failed: 0
@@ -531,6 +535,7 @@ exports['summary and reporting'] = {
 
                 test.deepEqual(summary, {
                     passed: false,
+                    errored: false,
                     assertions: {
                         total: 5,
                         failed: 2
@@ -560,6 +565,7 @@ exports['summary and reporting'] = {
 
                 test.deepEqual(summary, {
                     passed: false,
+                    errored: true,
                     assertions: {
                         total: 2,
                         failed: 1
@@ -589,6 +595,7 @@ exports['summary and reporting'] = {
 
                 test.deepEqual(summary, {
                     passed: false,
+                    errored: true,
                     assertions: {
                         total: 2,
                         failed: 0
@@ -619,6 +626,7 @@ exports['summary and reporting'] = {
 
                 test.deepEqual(summary, {
                     passed: true,
+                    errored: false,
                     assertions: {
                         total: 2,
                         failed: 0

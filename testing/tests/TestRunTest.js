@@ -97,8 +97,9 @@ exports['running and reporting'] = {
                         total: 3
                     },
                     tests: {
+                        errored: 1,
                         failed: 2,
-                        total: 5
+                        total: 6
                     },
                     assertions: {
                         failed: 4,
