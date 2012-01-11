@@ -37,6 +37,19 @@ exports['assertions'] = {
         cb();
     },
 
+    'fail': function(test) {
+        ar.fail(1, 2, 'your message', '!=!');
+        ar.fail(1, 2, undefined, '!=!');
+        ar.getAssertions().then(
+            function(assertions) {
+                test.equal(assertions[0].error.toString(), 'AssertionError: your message');
+                test.equal(assertions[1].error.toString(), 'AssertionError: 1 !=! 2');
+
+                test.done();
+            }
+        );
+    },
+
     'ok': function(test) {
 
         ar.ok(true, 'should be true');
