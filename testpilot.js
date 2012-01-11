@@ -24,40 +24,45 @@
  * Date: 1/2/12
  */
 
+var Q = require('qq');
 var path = require('path');
+var Colorize = require('./lib/Colorize');
+var TestRun = require('./lib/TestRun').TestRun;
 var argv = require('optimist')
-    .usage('Usage: $0 --plain -- paths')
     .boolean('plain')
-    .describe('plain', 'plain console output, no color')
+    .string('reporter')
+    .default('reporter', 'console')
+    .boolean('stop-on-failure')     // Stop as soon as a test fails - not yet implemented
+    .boolean('show-passed')         // ConsoleReporter shows passed tests - not yet implemented
+    .string('junit-output')
+    .default('junit-output', 'testlog.xml')
     .argv;
 
-var Colorize = require('./lib/Colorize');
+var availableReporters = {
+    console: require('./lib/reporters/ConsoleReporter.js').reporter,
+    junit: require('./lib/reporters/JunitReporter.js').reporter
+};
 
-var TestRun = require('./lib/TestRun').TestRun;
+var reporters = argv.reporter;
+if (typeof reporters == 'string') {
+    reporters = [ reporters ];
+}
+
+reporters = reporters.map(function(name) {
+    var Reporter = availableReporters[name];
+    if (!Reporter) {
+        console.error('Error: could not find a "'+name+'" reporter.');
+        process.exit(1);
+    }
+    return new Reporter(argv);
+});
+
 var ConsoleReporter = require('./lib/reporters/ConsoleReporter.js').reporter;
 
-var Q = require('qq');
-
-
-// exit and uncaughtException handlers: These should not be necessary,
-// but are here temporarily to help debug a problem apparently
-// affecting node > 0.5.0
-
-var onExit = function() {
-    console.log('Exiting prematurely!');
-};
-process.on('exit', onExit);
-
-process.on('uncaughtException', function(err) {
-    console.log('Uncaught exception!');
-    console.log(err.message);
-    console.log(err.stack);
-});
 
 if (argv.plain) {
     Colorize.useColor(false);
 }
-
 
 var run = new TestRun();
 
@@ -70,29 +75,44 @@ Q.all(argv._.map(function(p) {
             function(summary) {
 
                 // only ConsoleReporter supported for now
-                var reporter = new ConsoleReporter();
-                reporter.report(run);
+//                var reporter = new ConsoleReporter();
+//                reporter.report(run);
 
                 var exitCode = 0;
-                console.log();
-                if (summary.passed) {
 
-                    console.log('All tests %s (%s tests, %s assertions)', Colorize.format('PASSED', 'green'),
-                        summary.tests.total, summary.assertions.total);
+                var done;
+                reporters.forEach(function(reporter) {
+                    done = Q.when(done, function() {
+                        return reporter.report(run);
+                    }).then(null, function(err) {
+                        console.error('The %s reporter returned an error: %s',
+                            Colorize.format(reporter.getName(), 'bold'),
+                            Colorize.format(err.message || err.toString(), 'red+bold'));
+                        throw err;
+                    });
+                });
+
+                return Q.when(done, function() {
                     console.log();
+                    if (summary.passed) {
 
-                } else {
+                        console.log('All tests %s (%s tests, %s assertions)', Colorize.format('PASSED', 'green'),
+                            summary.tests.total, summary.assertions.total);
+                        console.log();
 
-                    console.log('%s (%s of %s tests, %s of %s assertions)',
-                        Colorize.format('FAILED', 'red+bold'),
-                        summary.tests.failed, summary.tests.total,
-                        summary.assertions.failed, summary.assertions.total);
-                    console.log();
+                    } else {
 
-                    exitCode = 1;
-                }
+                        console.log('%s (%s of %s tests, %s of %s assertions)',
+                            Colorize.format('FAILED', 'red+bold'),
+                            summary.tests.failed, summary.tests.total,
+                            summary.assertions.failed, summary.assertions.total);
+                        console.log();
 
-                return exitCode;
+                        exitCode = 1;
+                    }
+
+                    return exitCode;
+                });
             }
         );
 
@@ -100,14 +120,11 @@ Q.all(argv._.map(function(p) {
 ).then(
     null,
     function(err) {
-        console.log(err.message);
-        console.log(err.stack);
         return 1;
     }
 ).then(
     function(exitCode) {
         setTimeout(function() {
-            process.removeListener('exit', onExit);
             process.exit(exitCode);
         }, 10);
     }
