@@ -28,6 +28,8 @@ var Q = require('qq');
 var TestCase = require('../../lib/TestCase').TestCase;
 var AssertRecord = require('../../lib/AssertRecord').AssertRecord;
 
+var MonkeyPatcher = require('capsela-util').MonkeyPatcher;
+
 exports['init'] = {
 
     'initially untested': function(test) {
@@ -87,6 +89,7 @@ exports['test function control'] = {
 
     'stop and fail after returned promise rejection': function(test) {
         var rejected = false;
+
         var tc = new TestCase('test', function(test) {
             var def = Q.defer();
             test.ok(true);
@@ -780,6 +783,40 @@ exports['summary and reporting'] = {
                 test.done();
             }
         );
+    }
+
+};
+
+
+exports['duration timing'] = {
+
+    setUp: function(cb) {
+        MonkeyPatcher.setUp();
+        cb();
+    },
+
+    tearDown: MonkeyPatcher.tearDown,
+
+    'record duration': function(test) {
+
+        var testFunc = function(test) {
+            test.done();
+        };
+
+        var tc = new TestCase('test', testFunc);
+
+        var times = [ 4, 10 ];
+        MonkeyPatcher.patch(Date, 'now', function() {
+            return times.shift();
+        });
+
+        tc.run().then(
+            function(summary) {
+                test.equal(tc.getDuration(), 6);
+                test.done();
+            }
+        );
+
     }
 
 };

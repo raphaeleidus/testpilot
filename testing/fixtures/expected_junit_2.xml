@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-    <testsuite name="Test3Test" errors="0" failures="0" tests="1">
-        <testcase name="test3a">
+    <testsuite name="Test3Test" errors="0" failures="0" tests="1" time="0.025">
+        <testcase name="test3a" time="0.025">
         </testcase>
     </testsuite>
-    <testsuite name="Test1Test" errors="1" failures="0" tests="1">
-        <testcase name="test1a">
+    <testsuite name="Test1Test" errors="1" failures="0" tests="1" time="0">
+        <testcase name="test1a" time="0">
             <failure message="Error: setUp failed" />
         </testcase>
     </testsuite>

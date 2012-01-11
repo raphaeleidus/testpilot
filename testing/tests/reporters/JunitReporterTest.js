@@ -33,7 +33,19 @@ var Qfs = require('q-fs');
 
 exports['reporting'] = {
 
-    setUp: MonkeyPatcher.setUp,
+    setUp: function(cb) {
+        MonkeyPatcher.setUp();
+
+        // make sure every test takes 25 ms
+        var time = 0;
+        MonkeyPatcher.patch(Date, 'now', function() {
+            time += 25;
+            return time;
+        });
+
+        cb();
+    },
+
     tearDown: MonkeyPatcher.tearDown,
 
     'report with normal run': function(test) {
