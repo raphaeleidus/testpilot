@@ -57,7 +57,6 @@ reporters = reporters.map(function(name) {
     return new Reporter(argv);
 });
 
-var ConsoleReporter = require('./lib/reporters/ConsoleReporter.js').reporter;
 
 
 if (argv.plain) {
