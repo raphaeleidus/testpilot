@@ -110,8 +110,8 @@ Q.all(argv._.map(function(p) {
                         else {
                             console.log('%s (%s of %s tests)',
                                 Colorize.format('FAILED', 'red+bold'),
-                                summary.tests.failed + summary.tests.errored, summary.tests.total,
-                                summary.assertions.failed);
+                                summary.tests.failed + summary.tests.errored,
+                                summary.tests.total);
                         }
 
                         exitCode = 1;
