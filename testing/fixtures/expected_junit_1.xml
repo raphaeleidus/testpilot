@@ -7,7 +7,7 @@
     <testsuite name="Test1Test" errors="0" failures="1" tests="2">
         <testcase name="test1a">
         </testcase>
-        <testcase name="test1b">
+        <testcase name="test1b &amp; more">
             <failure message="AssertionError: false == true" />
             <failure message="AssertionError: these things should match" />
         </testcase>

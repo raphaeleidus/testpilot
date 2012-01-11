@@ -31,7 +31,7 @@ exports.test1a = function(test) {
     test.done();
 };
 
-exports.test1b = function(test) {
+exports['test1b & more'] = function(test) {
     test.ok(true);
     test.ok(false);
     test.deepEqual({ a: 3, b: 7 }, [ 'monkeys', 'chickens' ], 'these things should match');
