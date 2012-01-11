@@ -508,7 +508,38 @@ exports['tearDown function control'] = {
                 test.done();
             }
         );
+    },
+
+    'tearDown runs even if test times out': function(test) {
+
+        var tearDownRan = false;
+        var tearDown = function(cb) {
+            tearDownRan = true;
+            cb()
+        };
+
+        var testFunc = function() {
+            // do nothing, time out
+        };
+
+        var tc = new TestCase('test', testFunc, null, tearDown);
+
+        tc.setTimeout(50);
+
+        tc.run().then(
+            function() {
+
+                // the teardown ran
+                test.ok(tearDownRan);
+
+                test.equal(tc.getResult(), TestCase.FAILED);
+                test.equal(tc.getGeneralError().message, 'timed out waiting for test');
+                test.equal(tc.getGeneralErrorPhase(), 'test');
+                test.done();
+            }
+        );
     }
+
 
 };
 
