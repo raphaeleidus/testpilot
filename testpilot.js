@@ -34,6 +34,7 @@ var argv = require('optimist')
     .default('reporter', 'console')
     .boolean('stop-on-failure')     // Stop as soon as a test fails - not yet implemented
     .boolean('show-passed')         // ConsoleReporter shows passed tests - not yet implemented
+    .default('show-passed', false)
     .string('junit-output')
     .default('junit-output', 'testlog.xml')
     .argv;
