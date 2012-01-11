@@ -595,6 +595,8 @@ exports['summary and reporting'] = {
                     }
                 });
 
+                test.deepEqual(tc.getSummary(), summary);
+
                 test.done();
             }
         );
@@ -622,6 +624,8 @@ exports['summary and reporting'] = {
                         failed: 0
                     }
                 });
+
+                test.deepEqual(tc.getSummary(), summary);
 
                 test.done();
             }

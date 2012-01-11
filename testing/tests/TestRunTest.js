@@ -88,9 +88,9 @@ exports['running and reporting'] = {
                 return tr.run();
             }
         ).then(
-            function(report) {
+            function(summary) {
 
-                test.deepEqual(report, {
+                test.deepEqual(summary, {
                     passed: false,
                     suites: {
                         failed: 2,
@@ -101,10 +101,12 @@ exports['running and reporting'] = {
                         total: 5
                     },
                     assertions: {
-                        failed: 3,
-                        total: 7
+                        failed: 4,
+                        total: 8
                     }
                 });
+
+                test.deepEqual(tr.getSummary(), summary);
 
                 test.done();
             }
