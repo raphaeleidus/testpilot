@@ -552,6 +552,7 @@ exports['tearDown function control'] = {
                 test.ok(tearDownRan);
 
                 test.equal(tc.getResult(), TestCase.FAILED);
+                test.equal(tc.getFailure(), TestCase.GENERAL_ERROR);
                 test.equal(tc.getGeneralError().message, 'timed out waiting for test');
                 test.equal(tc.getGeneralErrorPhase(), TestCase.TEST);
                 test.done();
@@ -592,6 +593,60 @@ exports['tearDown function control'] = {
         );
     }
 
+};
+
+exports['aborting test run'] = {
+
+    'abort if errors in test and tearDown': function(test) {
+
+        var tearDown = function(cb) {
+            throw new Error('tearDown error');
+        };
+
+        var testFunc = function() {
+            throw new Error('test error');
+        };
+
+        var tc = new TestCase('test', testFunc, null, tearDown);
+
+        tc.setTimeout(50);
+
+        tc.run().then(
+            function() {
+                test.equal(tc.getResult(), TestCase.FAILED);
+                test.equal(tc.getFailure(), TestCase.SETUP_TEARDOWN_ERROR);
+                test.equal(tc.getGeneralError().message, 'tearDown error');
+                test.equal(tc.getGeneralErrorPhase(), TestCase.TEARDOWN);
+                test.done();
+            }
+        );
+    },
+
+    'abort if assertion failures in test and error tearDown': function(test) {
+
+        var tearDown = function(cb) {
+            throw new Error('tearDown error');
+        };
+
+        var testFunc = function(test) {
+            test.ok(false);
+            test.done();
+        };
+
+        var tc = new TestCase('test', testFunc, null, tearDown);
+
+        tc.setTimeout(50);
+
+        tc.run().then(
+            function() {
+                test.equal(tc.getResult(), TestCase.FAILED);
+                test.equal(tc.getFailure(), TestCase.SETUP_TEARDOWN_ERROR);
+                test.equal(tc.getGeneralError().message, 'tearDown error');
+                test.equal(tc.getGeneralErrorPhase(), TestCase.TEARDOWN);
+                test.done();
+            }
+        );
+    }
 
 };
 
