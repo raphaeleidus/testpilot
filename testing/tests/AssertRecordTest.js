@@ -26,6 +26,7 @@
 
 var Q = require('qq');
 var AssertRecord = require('../../lib/AssertRecord').AssertRecord;
+var path = require('path');
 
 var ar;
 
@@ -256,6 +257,37 @@ exports['deferred arguments'] = {
         );
     }
 
-
 };
 
+
+exports['assert location tracking'] = {
+
+    setUp: function(cb) {
+        ar = new AssertRecord();
+        cb();
+    },
+
+    'test file and line number': function(test) {
+
+        var file = path.basename(__filename);
+
+        // keep these two asserts separated by one line (although we don't
+        // know what absolute line numbers they are on, at least we can test
+        // that the calculated numbers are accurate relative to each other)
+        ar.ok(true);
+        //----------
+        ar.equal(1, 2);
+
+        ar.getAssertions().then(
+            function(assertions) {
+                test.equal(assertions[0].file, file, assertions[0].assertLine);
+                test.equal(assertions[1].file, file, assertions[0].assertLine);
+                test.equal(parseInt(assertions[0].line) + 2, assertions[1].line);
+
+                test.done();
+            }
+        );
+
+    }
+
+};
