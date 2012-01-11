@@ -104,7 +104,7 @@ Q.all(argv._.map(function(p) {
 
                         console.log('%s (%s of %s tests, %s of %s assertions)',
                             Colorize.format('FAILED', 'red+bold'),
-                            summary.tests.failed, summary.tests.total,
+                            summary.tests.failed + summary.tests.errored, summary.tests.total,
                             summary.assertions.failed, summary.assertions.total);
                         console.log();
 
