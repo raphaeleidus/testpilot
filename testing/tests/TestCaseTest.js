@@ -104,10 +104,12 @@ exports['test function control'] = {
                 test.equal(tc.getResult(), TestCase.FAILED);
                 test.equal(tc.getGeneralError().message, 'oh my!');
                 test.equal(tc.getGeneralErrorPhase(), 'test');
+                test.ok(!tc.getGeneralErrorUncaught());
 
                 test.deepEqual(summary, {
                     passed: false,
                     errored: true,
+                    aborted: false,
                     assertions: {
                         total: 1,
                         failed: 0
@@ -132,10 +134,12 @@ exports['test function control'] = {
                 test.equal(tc.getResult(), TestCase.FAILED);
                 test.equal(tc.getGeneralError().message, 'oh bother');
                 test.equal(tc.getGeneralErrorPhase(), 'test');
+                test.ok(!tc.getGeneralErrorUncaught());
 
                 test.deepEqual(summary, {
                     passed: false,
                     errored: true,
+                    aborted: false,
                     assertions: {
                         total: 0,
                         failed: 0
@@ -162,10 +166,12 @@ exports['test function control'] = {
                 test.equal(tc.getResult(), TestCase.FAILED);
                 test.equal(tc.getGeneralError().message, 'oh bother');
                 test.equal(tc.getGeneralErrorPhase(), 'test');
+                test.ok(tc.getGeneralErrorUncaught());
 
                 test.deepEqual(summary, {
                     passed: false,
                     errored: true,
+                    aborted: false,
                     assertions: {
                         total: 0,
                         failed: 0
@@ -191,10 +197,12 @@ exports['test function control'] = {
                 test.equal(tc.getResult(), TestCase.FAILED);
                 test.equal(tc.getGeneralError().message, 'timed out waiting for test');
                 test.equal(tc.getGeneralErrorPhase(), 'test');
+                test.ok(!tc.getGeneralErrorUncaught());
 
                 test.deepEqual(summary, {
                     passed: false,
                     errored: true,
+                    aborted: false,
                     assertions: {
                         total: 0,
                         failed: 0
@@ -285,8 +293,10 @@ exports['setUp function control'] = {
         tc.run().then(
             function() {
                 test.equal(tc.getResult(), TestCase.FAILED);
+                test.equal(tc.getFailure(), TestCase.SETUP_TEARDOWN_ERROR);
                 test.equal(tc.getGeneralError().message, 'set it up yourself');
-                test.equal(tc.getGeneralErrorPhase(), 'setUp');
+                test.equal(tc.getGeneralErrorPhase(), TestCase.SETUP);
+                test.ok(!tc.getGeneralErrorUncaught());
                 test.done();
             }
         );
@@ -311,8 +321,10 @@ exports['setUp function control'] = {
         tc.run().then(
             function() {
                 test.equal(tc.getResult(), TestCase.FAILED);
+                test.equal(tc.getFailure(), TestCase.SETUP_TEARDOWN_ERROR);
                 test.equal(tc.getGeneralError().message, 'set it up yourself');
-                test.equal(tc.getGeneralErrorPhase(), 'setUp');
+                test.equal(tc.getGeneralErrorPhase(), TestCase.SETUP);
+                test.ok(tc.getGeneralErrorUncaught());
                 test.done();
             }
         );
@@ -338,8 +350,10 @@ exports['setUp function control'] = {
         tc.run().then(
             function() {
                 test.equal(tc.getResult(), TestCase.FAILED);
+                test.equal(tc.getFailure(), TestCase.SETUP_TEARDOWN_ERROR);
                 test.equal(tc.getGeneralError().message, 'never did set that up for you');
-                test.equal(tc.getGeneralErrorPhase(), 'setUp');
+                test.equal(tc.getGeneralErrorPhase(), TestCase.SETUP);
+                test.ok(!tc.getGeneralErrorUncaught());
                 test.done();
             }
         );
@@ -423,8 +437,10 @@ exports['tearDown function control'] = {
         tc.run().then(
             function() {
                 test.equal(tc.getResult(), TestCase.FAILED);
+                test.equal(tc.getFailure(), TestCase.SETUP_TEARDOWN_ERROR);
                 test.equal(tc.getGeneralError().message, 'hiccup');
-                test.equal(tc.getGeneralErrorPhase(), 'tearDown');
+                test.equal(tc.getGeneralErrorPhase(), TestCase.TEARDOWN);
+                test.ok(!tc.getGeneralErrorUncaught());
                 test.done();
             }
         );
@@ -447,8 +463,10 @@ exports['tearDown function control'] = {
         tc.run().then(
             function() {
                 test.equal(tc.getResult(), TestCase.FAILED);
+                test.equal(tc.getFailure(), TestCase.SETUP_TEARDOWN_ERROR);
                 test.equal(tc.getGeneralError().message, 'hiccup later');
-                test.equal(tc.getGeneralErrorPhase(), 'tearDown');
+                test.equal(tc.getGeneralErrorPhase(), TestCase.TEARDOWN);
+                test.ok(tc.getGeneralErrorUncaught());
                 test.done();
             }
         );
@@ -473,14 +491,16 @@ exports['tearDown function control'] = {
         tc.run().then(
             function() {
                 test.equal(tc.getResult(), TestCase.FAILED);
+                test.equal(tc.getFailure(), TestCase.SETUP_TEARDOWN_ERROR);
                 test.equal(tc.getGeneralError().message, 'actually, no');
-                test.equal(tc.getGeneralErrorPhase(), 'tearDown');
+                test.equal(tc.getGeneralErrorPhase(), TestCase.TEARDOWN);
+                test.ok(!tc.getGeneralErrorUncaught());
                 test.done();
             }
         );
     },
 
-    'tearDown runs even if test errors, does not obscure error': function(test) {
+    'tearDown runs even if test errors': function(test) {
 
         var tearDownRan = false;
         var tearDown = function() {
@@ -500,11 +520,10 @@ exports['tearDown function control'] = {
                 // the teardown ran
                 test.ok(tearDownRan);
 
-                // ... but since there was already a general error from the test itself,
-                // don't worry about the teardown error
                 test.equal(tc.getResult(), TestCase.FAILED);
-                test.equal(tc.getGeneralError().message, 'kaboom');
-                test.equal(tc.getGeneralErrorPhase(), 'test');
+                test.equal(tc.getFailure(), TestCase.SETUP_TEARDOWN_ERROR);
+                test.equal(tc.getGeneralError().message, 'hiccup');
+                test.equal(tc.getGeneralErrorPhase(), TestCase.TEARDOWN);
                 test.done();
             }
         );
@@ -534,7 +553,40 @@ exports['tearDown function control'] = {
 
                 test.equal(tc.getResult(), TestCase.FAILED);
                 test.equal(tc.getGeneralError().message, 'timed out waiting for test');
-                test.equal(tc.getGeneralErrorPhase(), 'test');
+                test.equal(tc.getGeneralErrorPhase(), TestCase.TEST);
+                test.done();
+            }
+        );
+    },
+
+    'tearDown does not run if setUp fails': function(test) {
+
+        var setUp = function() {
+            throw new Error('setup failed');
+        };
+
+        var tearDownRan = false;
+        var tearDown = function(cb) {
+            tearDownRan = true;
+            cb()
+        };
+
+        var testFunc = function() {};
+
+        var tc = new TestCase('test', testFunc, setUp, tearDown);
+
+        tc.setTimeout(50);
+
+        tc.run().then(
+            function(summary) {
+
+                // the teardown ran
+                test.ok(!tearDownRan);
+                test.ok(summary.aborted);
+                test.equal(tc.getResult(), TestCase.FAILED);
+                test.equal(tc.getFailure(), TestCase.SETUP_TEARDOWN_ERROR);
+                test.equal(tc.getGeneralError().message, 'setup failed');
+                test.equal(tc.getGeneralErrorPhase(), TestCase.SETUP);
                 test.done();
             }
         );
@@ -567,6 +619,7 @@ exports['summary and reporting'] = {
                 test.deepEqual(summary, {
                     passed: false,
                     errored: false,
+                    aborted: false,
                     assertions: {
                         total: 5,
                         failed: 2
@@ -597,6 +650,7 @@ exports['summary and reporting'] = {
                 test.deepEqual(summary, {
                     passed: false,
                     errored: true,
+                    aborted: false,
                     assertions: {
                         total: 2,
                         failed: 1
@@ -627,6 +681,7 @@ exports['summary and reporting'] = {
                 test.deepEqual(summary, {
                     passed: false,
                     errored: true,
+                    aborted: false,
                     assertions: {
                         total: 2,
                         failed: 0
@@ -658,6 +713,7 @@ exports['summary and reporting'] = {
                 test.deepEqual(summary, {
                     passed: true,
                     errored: false,
+                    aborted: false,
                     assertions: {
                         total: 2,
                         failed: 0

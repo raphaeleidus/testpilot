@@ -92,6 +92,7 @@ exports['running and reporting'] = {
 
                 test.deepEqual(summary, {
                     passed: false,
+                    aborted: false,
                     suites: {
                         failed: 2,
                         total: 3

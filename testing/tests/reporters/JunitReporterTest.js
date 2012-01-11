@@ -31,48 +31,76 @@ var JunitReporter = require('../../../lib/reporters/JunitReporter').reporter;
 var MonkeyPatcher = require('capsela-util').MonkeyPatcher;
 var Qfs = require('q-fs');
 
-var tr;
-
 exports['reporting'] = {
 
-    setUp: function(cb) {
-        MonkeyPatcher.setUp();
+    setUp: MonkeyPatcher.setUp,
+    tearDown: MonkeyPatcher.tearDown,
 
-        tr = new TestRun();
+    'report with normal run': function(test) {
+
+        var tr = new TestRun();
         tr.addPath(__dirname + '/../../fixtures/TestsDir2').then(
             function() {
                 return tr.run();
             }
         ).then(
-            function(summary) {
-                cb();
+            function() {
+
+                var reporter = new JunitReporter({
+                    'junit-output': '/path/to/junit.xml'
+                });
+
+                Qfs.read(__dirname + '/../../fixtures/expected_junit_1.xml').then(
+                    function(expected) {
+                        expected = expected.toString('utf8');
+
+                        MonkeyPatcher.patch(Qfs, 'write', function(path, content, options) {
+
+                            test.equal(path, '/path/to/junit.xml');
+                            test.equal(content, expected);
+
+                            test.done();
+                        });
+
+                        reporter.report(tr);
+
+                    }
+                );
             }
         );
 
     },
 
-    tearDown: MonkeyPatcher.tearDown,
+    'report with aborted run': function(test) {
 
-    'report': function(test) {
+        var tr = new TestRun();
+        tr.addPath(__dirname + '/../../fixtures/TestsDir3').then(
+            function() {
+                return tr.run();
+            }
+        ).then(
+            function() {
 
-        var reporter = new JunitReporter({
-            'junit-output': '/path/to/junit.xml'
-        });
-
-        Qfs.read(__dirname + '/../../fixtures/expected_junit_1.xml').then(
-            function(expected) {
-                expected = expected.toString('utf8');
-
-                MonkeyPatcher.patch(Qfs, 'write', function(path, content, options) {
-
-                    test.equal(path, '/path/to/junit.xml');
-                    test.equal(content, expected);
-
-                    test.done();
+                var reporter = new JunitReporter({
+                    'junit-output': '/path/to/junit.xml'
                 });
 
-                reporter.report(tr);
+                Qfs.read(__dirname + '/../../fixtures/expected_junit_2.xml').then(
+                    function(expected) {
+                        expected = expected.toString('utf8');
 
+                        MonkeyPatcher.patch(Qfs, 'write', function(path, content, options) {
+
+                            test.equal(path, '/path/to/junit.xml');
+                            test.equal(content, expected);
+
+                            test.done();
+                        });
+
+                        reporter.report(tr);
+
+                    }
+                );
             }
         );
 

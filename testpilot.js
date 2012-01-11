@@ -97,18 +97,25 @@ Q.all(argv._.map(function(p) {
 
                         console.log('All tests %s (%s tests, %s assertions)', Colorize.format('PASSED', 'green'),
                             summary.tests.total, summary.assertions.total);
-                        console.log();
 
-                    } else {
+                    }
+                    else {
 
-                        console.log('%s (%s of %s tests, %s of %s assertions)',
-                            Colorize.format('FAILED', 'red+bold'),
-                            summary.tests.failed + summary.tests.errored, summary.tests.total,
-                            summary.assertions.failed, summary.assertions.total);
-                        console.log();
+                        if (summary.aborted) {
+                            console.log('%s : aborted run after setUp/tearDown failure',
+                                Colorize.format('FAILED', 'red+bold')
+                            );
+                        }
+                        else {
+                            console.log('%s (%s of %s tests)',
+                                Colorize.format('FAILED', 'red+bold'),
+                                summary.tests.failed + summary.tests.errored, summary.tests.total,
+                                summary.assertions.failed);
+                        }
 
                         exitCode = 1;
                     }
+                    console.log();
 
                     return exitCode;
                 });
