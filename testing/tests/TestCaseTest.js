@@ -817,6 +817,45 @@ exports['duration timing'] = {
             }
         );
 
+    },
+
+    'timing accurate even if test patches Date.now()': function(test) {
+
+        // if TestCase isn't careful and uses Date.now() directly, this
+        // test will break it
+
+        var times = [ 4, 10 ];
+        MonkeyPatcher.patch(Date, 'now', function() {
+            return times.shift();
+        });
+
+        var origDateNow = Date.now;
+        var setUp = function(cb) {
+            Date.now = function() {
+                return Math.floor(Math.random() * 100000);
+            };
+            cb();
+        };
+
+        var testFunc = function(test) {
+            test.done();
+        };
+
+        var tearDown = function(cb) {
+            Date.now = origDateNow;
+            cb();
+        };
+
+        var tc = new TestCase('test', testFunc, setUp, tearDown);
+
+        tc.run().then(
+            function(summary) {
+                test.equal(tc.getDuration(), 6);
+                test.done();
+            }
+        );
+
     }
+
 
 };
