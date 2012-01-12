@@ -93,11 +93,16 @@ Q.all(argv._.map(function(p) {
                 });
 
                 return Q.when(done, function() {
+
+                    var dur = run.getDuration();
+                    dur = (dur > 1000) ? ((dur/1000) + ' s') : (dur + ' ms');
+
                     console.log();
                     if (summary.passed) {
 
-                        console.log('All tests %s (%s tests, %s assertions)', Colorize.format('PASSED', 'green'),
-                            summary.tests.total, summary.assertions.total);
+                        console.log('All tests %s (%s tests, %s assertions)  -  %s', Colorize.format('PASSED', 'green'),
+                            summary.tests.total, summary.assertions.total, dur
+                        );
 
                     }
                     else {
@@ -108,10 +113,10 @@ Q.all(argv._.map(function(p) {
                             );
                         }
                         else {
-                            console.log('%s (%s of %s tests)',
+                            console.log('%s (%s of %s tests)  -  %s',
                                 Colorize.format('FAILED', 'red+bold'),
                                 summary.tests.failed + summary.tests.errored,
-                                summary.tests.total);
+                                summary.tests.total, dur);
                         }
 
                         exitCode = 1;
