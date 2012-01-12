@@ -1,7 +1,8 @@
 A promise-savvy testing framework for Node.js.
 ===
 
-### Key features:
+Key Features
+---
 
 * Backward compatible with nodeunit: runs any* nodeunit test suite without modification.
 * Pass either immediate values or promises to assertions. Testpilot will resolve them for you.
@@ -12,9 +13,8 @@ A promise-savvy testing framework for Node.js.
 Usage
 ---
 
-   npm install testpilot
-
-   testpilot path/to/test/directory
+    npm install testpilot
+    testpilot path/to/test/directory
 
 Details coming soon.
 
