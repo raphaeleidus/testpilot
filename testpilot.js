@@ -74,10 +74,6 @@ Q.all(argv._.map(function(p) {
         return run.run().then(
             function(summary) {
 
-                // only ConsoleReporter supported for now
-//                var reporter = new ConsoleReporter();
-//                reporter.report(run);
-
                 var exitCode = 0;
 
                 var done;
