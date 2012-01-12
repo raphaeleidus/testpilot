@@ -4,8 +4,8 @@
         <testcase name="test3a" time="0.025">
         </testcase>
     </testsuite>
-    <testsuite name="Test1Test" errors="1" failures="0" tests="1" time="0">
-        <testcase name="test1a" time="0">
+    <testsuite name="Test1Test" errors="1" failures="0" tests="1" time="0.025">
+        <testcase name="test1a" time="0.025">
             <failure message="Error: setUp failed" />
         </testcase>
     </testsuite>
