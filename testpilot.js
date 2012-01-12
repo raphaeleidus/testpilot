@@ -73,7 +73,10 @@ nomnom.options({
         list: true,
         required: true
     }
-}).colors();
+}).help(
+    'Testpilot will accept any number of paths, and will recursively scan\n' +
+    'directories. Test files must have names ending in "Test.js".'
+).colors();
 
 var opts = nomnom.parse();
 
@@ -105,6 +108,13 @@ Q.all(opts.paths.map(function(p) {
     return run.addPath(p);
 })).then(
     function() {
+        if (run.getSuites().length == 0) {
+            console.log('\n%s : could not find any test files\n',
+                Colorize.format('FAILED', 'red+bold')
+            );
+            return 1;
+        }
+
         return run.run().then(
             function(summary) {
 
