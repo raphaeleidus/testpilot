@@ -2,7 +2,8 @@
   "author": "Chris Osborn <chris.osborn@sitelier.com>",
   "name": "testpilot",
   "description": "Promise-savvy testing framework.",
-  "version": "0.1.0",
+  "keywords": [ "testing", "unit testing", "promise", "Q API" ],
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/Sitelier/testpilot.git"
@@ -19,7 +20,7 @@
       "capsela-util": ">=1.0.1",
       "qq": ">=0.3.3",
       "q-fs": ">=0.1.19",
-      "optimist": ">=0.3.1",
+      "nomnom": ">=1.5.1",
       "ansi-color": ">=0.2.1"
   },
   "devDependencies": {},

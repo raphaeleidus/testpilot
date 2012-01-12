@@ -28,23 +28,57 @@ var Q = require('qq');
 var path = require('path');
 var Colorize = require('./lib/Colorize');
 var TestRun = require('./lib/TestRun').TestRun;
-var argv = require('optimist')
-    .boolean('plain')
-    .string('reporter')
-    .default('reporter', 'console')
-    .boolean('stop-on-failure')     // Stop as soon as a test fails - not yet implemented
-    .boolean('show-passed')         // ConsoleReporter shows passed tests - not yet implemented
-    .default('show-passed', false)
-    .string('junit-output')
-    .default('junit-output', 'testlog.xml')
-    .argv;
 
 var availableReporters = {
     console: require('./lib/reporters/ConsoleReporter.js').reporter,
     junit: require('./lib/reporters/JunitReporter.js').reporter
 };
 
-var reporters = argv.reporter;
+var reporterNames = Object.keys(availableReporters);
+
+
+// Configure command-line option parsing with nomnom
+
+var nomnom = require('nomnom');
+nomnom.options({
+    reporter: {
+        help: 'reporter to use [' + reporterNames.join('|') + ']',
+        abbr: 'r',
+        list: true,
+        choices: reporterNames,
+        'default': 'console'
+    },
+    'stopOnFailure': {
+        help: 'stop immediately if a test fails',
+        flag: true,
+        full: 'stop-on-failure',
+        hidden: true // not yet implemented
+    },
+    plain: {
+        help: 'output only plain text, no colors or styles (console reporter)',
+        flag: true
+    },
+    'all': {
+        help: 'all tests, not just failures (console reporter)',
+        flag: true
+    },
+    'junitOutput': {
+        help: 'file path for JUnit XML output, defaults to testlog.xml (junit reporter)',
+        full: 'junit-output',
+        'default': 'testlog.xml'
+    },
+    'paths': {
+        help: 'files and directories to test',
+        position: 0,
+        list: true,
+        required: true
+    }
+}).colors();
+
+var opts = nomnom.parse();
+
+
+var reporters = opts.reporter;
 if (typeof reporters == 'string') {
     reporters = [ reporters ];
 }
@@ -55,19 +89,19 @@ reporters = reporters.map(function(name) {
         console.error('Error: could not find a "'+name+'" reporter.');
         process.exit(1);
     }
-    return new Reporter(argv);
+    return new Reporter(opts);
 });
 
 
 
-if (argv.plain) {
+if (opts.plain) {
     Colorize.useColor(false);
 }
 
 var run = new TestRun();
 
 // any unnamed arguments are interpreted as paths
-Q.all(argv._.map(function(p) {
+Q.all(opts.paths.map(function(p) {
     return run.addPath(p);
 })).then(
     function() {
