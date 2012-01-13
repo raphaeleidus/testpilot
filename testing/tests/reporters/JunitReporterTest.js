@@ -59,7 +59,7 @@ exports['reporting'] = {
             function() {
 
                 var reporter = new JunitReporter({
-                    'junit-output': '/path/to/junit.xml'
+                    'junitOutput': '/path/to/junit.xml'
                 });
 
                 Qfs.read(__dirname + '/../../fixtures/expected_junit_1.xml').then(
@@ -94,7 +94,7 @@ exports['reporting'] = {
             function() {
 
                 var reporter = new JunitReporter({
-                    'junit-output': '/path/to/junit.xml'
+                    'junitOutput': '/path/to/junit.xml'
                 });
 
                 Qfs.read(__dirname + '/../../fixtures/expected_junit_2.xml').then(
