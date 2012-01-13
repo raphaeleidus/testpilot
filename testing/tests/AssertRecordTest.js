@@ -135,9 +135,14 @@ exports['assertions'] = {
         ar.deepEqual(Q.ref([ 1, 3 ]), [ 1, 2 ], 'should also eventually be equal');
         ar.notDeepEqual(Q.ref([ 1, 3 ]), [ 1, 2 ], 'should also eventually not be equal');
 
+        var a = [ 1, 3 ];
+        var b = [ 1, 3 ];
+        ar.deepEqual(a, b, 'should still be equal when compared');
+        b.push(5);
+
         ar.getAssertions().then(
             function(assertions) {
-                test.equal(assertions.length, 8);
+                test.equal(assertions.length, 9);
 
                 test.equals(assertions[0].error, undefined);
                 test.equals(assertions[1].error.message, 'should not be equal');
@@ -150,6 +155,8 @@ exports['assertions'] = {
 
                 test.equals(assertions[6].error.message, 'should also eventually be equal');
                 test.equals(assertions[7].error, undefined);
+
+                test.equals(assertions[8].error, undefined);
 
                 test.done();
             }
@@ -236,6 +243,35 @@ exports['assertions'] = {
         ar.expect(5);
         test.equal(ar.getExpected(), 5);
         test.done();
+    },
+
+    rejects: function(test) {
+
+        ar.rejects(Q.ref(5));
+        ar.rejects(Q.ref(10), null, 'this can never be');
+        ar.rejects(Q.reject(new Error('error for you!')));
+
+        // the following tests both the error validator function and, more subtly,
+        // the general ability to make assertions from within the resolution process
+        // of an earlier assertion. See note in AssertRecord.getAssertions() for more.
+        ar.rejects(Q.reject(new Error('another error for you!')), function(err) {
+            ar.equal(err.message, 'another error for you!');
+        });
+
+        ar.getAssertions().then(
+            function(assertions) {
+
+                test.equal(assertions.length, 5);
+
+                test.equal(assertions[0].error.message, 'promise should have been rejected, but was resolved');
+                test.equal(assertions[1].error.message, 'this can never be');
+                test.equal(assertions[2].error, undefined);
+                test.equal(assertions[3].error, undefined);
+                test.equal(assertions[4].error, undefined);
+
+                test.done();
+            }
+        );
     }
 
 };
