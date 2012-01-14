@@ -9,10 +9,12 @@
     "url": "git://github.com/Sitelier/testpilot.git"
   },
   "main": "testpilot.js",
-  "licenses": {
-    "type": "MIT",
-    "url": "http://www.opensource.org/licenses/mit-license.php"
-  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
   "engines": {
     "node": "~0.6.0"
   },
