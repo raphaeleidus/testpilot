@@ -29,7 +29,7 @@ var TestRun = require('../../../lib/TestRun').TestRun;
 var JunitReporter = require('../../../lib/reporters/JunitReporter').reporter;
 
 var MonkeyPatcher = require('capsela-util').MonkeyPatcher;
-var Qfs = require('q-fs');
+var fs = require('../../../lib/FileSystem');
 
 exports['reporting'] = {
 
@@ -62,11 +62,11 @@ exports['reporting'] = {
                     'junitOutput': '/path/to/junit.xml'
                 });
 
-                Qfs.read(__dirname + '/../../fixtures/expected_junit_1.xml').then(
+                fs.readFile(__dirname + '/../../fixtures/expected_junit_1.xml').then(
                     function(expected) {
                         expected = expected.toString('utf8');
 
-                        MonkeyPatcher.patch(Qfs, 'write', function(path, content, options) {
+                        MonkeyPatcher.patch(fs, 'writeFile', function(path, content, options) {
 
                             test.equal(path, '/path/to/junit.xml');
                             test.equal(content, expected);
@@ -97,11 +97,11 @@ exports['reporting'] = {
                     'junitOutput': '/path/to/junit.xml'
                 });
 
-                Qfs.read(__dirname + '/../../fixtures/expected_junit_2.xml').then(
+                fs.readFile(__dirname + '/../../fixtures/expected_junit_2.xml').then(
                     function(expected) {
                         expected = expected.toString('utf8');
 
-                        MonkeyPatcher.patch(Qfs, 'write', function(path, content, options) {
+                        MonkeyPatcher.patch(fs, 'writeFile', function(path, content, options) {
 
                             test.equal(path, '/path/to/junit.xml');
                             test.equal(content, expected);
