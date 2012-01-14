@@ -64,9 +64,9 @@ exports['path manipulation'] = {
             function(files) {
 
                 var expected = [
-                    path.resolve(fixturesDir + '/TestsDir1/subdir/TestATest.js'),
                     path.resolve(fixturesDir + '/TestsDir1/TestBTest.js'),
-                    path.resolve(fixturesDir + '/TestsDir1/TestCTest.js')
+                    path.resolve(fixturesDir + '/TestsDir1/TestCTest.js'),
+                    path.resolve(fixturesDir + '/TestsDir1/subdir/TestATest.js')
                 ];
 
                 test.deepEqual(files, expected);

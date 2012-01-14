@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-    <testsuite name="Test3Test" errors="0" failures="0" tests="1" time="0.025">
-        <testcase name="test3a" time="0.025">
-        </testcase>
-    </testsuite>
     <testsuite name="Test1Test" errors="0" failures="1" tests="2" time="0.05">
         <testcase name="test1a" time="0.025">
         </testcase>
@@ -21,6 +17,10 @@
         </testcase>
         <testcase name="some tests : test2c" time="0.025">
             <failure message="Error: panic" />
+        </testcase>
+    </testsuite>
+    <testsuite name="Test3Test" errors="0" failures="0" tests="1" time="0.025">
+        <testcase name="test3a" time="0.025">
         </testcase>
     </testsuite>
 </testsuites>
