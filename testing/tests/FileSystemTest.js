@@ -93,6 +93,7 @@ exports['basics'] = {
                     base + '/A/E/f.txt',
                     base + '/B',
                     base + '/B/G',
+                    base + '/B/G/i.txt',
                     base + '/B/h.txt',
                     base + '/c.txt'
                 ].sort());
@@ -114,6 +115,7 @@ exports['basics'] = {
                     base + '/A/d.txt',
                     base + '/A/E/f.txt',
                     base + '/B/h.txt',
+                    base + '/B/G/i.txt',
                     base + '/c.txt'
                 ].sort());
 
