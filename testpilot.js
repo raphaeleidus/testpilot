@@ -24,7 +24,7 @@
  * Date: 1/2/12
  */
 
-var Q = require('qq');
+var Q = require('q');
 var path = require('path');
 var Colorize = require('./lib/Colorize');
 var TestRun = require('./lib/TestRun').TestRun;

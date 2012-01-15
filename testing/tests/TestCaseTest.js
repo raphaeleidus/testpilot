@@ -24,7 +24,7 @@
  * Date: 1/5/12
  */
 
-var Q = require('qq');
+var Q = require('q');
 var TestCase = require('../../lib/TestCase').TestCase;
 var AssertRecord = require('../../lib/AssertRecord').AssertRecord;
 

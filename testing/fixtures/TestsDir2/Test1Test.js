@@ -24,8 +24,6 @@
  * Date: 1/8/12
  */
 
-var Q = require('qq');
-
 exports.test1a = function(test) {
     test.ok(true);
     test.done();

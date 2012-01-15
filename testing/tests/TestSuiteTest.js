@@ -26,7 +26,7 @@
 
 var TestSuite = require('../../lib/TestSuite').TestSuite;
 var TestCase = require('../../lib/TestCase').TestCase;
-var Q = require('qq');
+var Q = require('q');
 
 var path = require('path');
 var fixturesDir = __dirname + '/../fixtures';

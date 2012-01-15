@@ -24,7 +24,7 @@
  * Date: 1/6/12
  */
 
-var Q = require('qq');
+var Q = require('q');
 var AssertRecord = require('../../lib/AssertRecord').AssertRecord;
 var path = require('path');
 

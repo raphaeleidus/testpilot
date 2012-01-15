@@ -28,7 +28,7 @@ var MonkeyPatcher = require('capsela-util').MonkeyPatcher;
 
 var TestRun = require('../../lib/TestRun').TestRun;
 var TestSuite = require('../../lib/TestSuite').TestSuite;
-var Q = require('qq');
+var Q = require('q');
 
 var path = require('path');
 var fixturesDir = __dirname + '/../fixtures';

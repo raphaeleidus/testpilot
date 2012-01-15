@@ -24,8 +24,6 @@
  * Date: 1/8/12
  */
 
-var Q = require('qq');
-
 exports.setUp = function(test) {
     throw new Error('setUp failed');
 };
