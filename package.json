@@ -3,7 +3,7 @@
   "name": "testpilot",
   "description": "Promise-savvy testing framework.",
   "keywords": [ "testing", "unit testing", "promise", "Q API" ],
-  "version": "0.2.2",
+  "version": "0.2.3",
   "repository": {
     "type": "git",
     "url": "git://github.com/Sitelier/testpilot.git"
@@ -27,5 +27,6 @@
   "devDependencies": {},
   "bin": {
       "testpilot" : "./bin/testpilot"
-  }
+  },
+  "preferGlobal": true
 }

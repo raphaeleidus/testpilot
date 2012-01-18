@@ -43,7 +43,7 @@ projects' tests used [Nodeunit](https://github.com/caolan/nodeunit) originally,
 so nodeunit compatibility was required from the outset. Valid Nodeunit tests are
 valid Testpilot tests as well, with only a few caveats:
 
-- since Testpilot's assertion functions accept promises and wait for them to resolve,
+- Since Testpilot's assertion functions accept promises and wait for them to resolve,
 any Nodeunit test that tries to compare *promises* rather than their eventual values
 will need adjustment. This is unlikely to ever bother anybody.
 - Testpilot doesn't need Nodeunit's `testCase` function, but then again neither does
@@ -90,8 +90,8 @@ module.
 
 Testpilot tries hard to work with any existing Nodeunit test suite, but adds new options
 that better fit the needs of promise-based asynchronous code (specifically that built on
-the Q library). Testing promise-based code with Nodeunit frequently leads to patterns like
-this:
+the [Q](https://github.com/kriskowal/q) library). Testing promise-based code with Nodeunit
+frequently leads to patterns like this:
 
     'test someFunc's return value': function(test) {
         // someFunc is asynchronous, returns a promise
@@ -127,16 +127,16 @@ can simplify even further:
     }
 
 This test uses the resolution or rejection of a promise in lieu of a call to `test.done()`.
-Rejection of the returned promise, of course, results in test failure. This does not obviate
-`test.done()` in every situation, but is often the most concise and natural way to end a test
-built using chained promises. You can also return a promise in a setUp or tearDown method
-rather than calling its callback.
+Rejection of the returned promise, of course, results in test failure. Returning a promise
+does not obviate `test.done()` in every situation, but is often the most concise and natural
+way to end a test built using chained promises. You can also return a promise in a setUp or
+tearDown method rather than calling its callback.
 
 However you choose to do it, it is important to tell Testpilot when a test is complete. But
 what if you forget? Nodeunit either hangs forever or exits abruptly with an error message,
 depending on the state of Node's event loop. This is inconvenient if you are using it as part
 of an automated build; it doesn't run all the tests and it doesn't create a final report.
-Testpilot instead times out and fails the offending test and moves on to the next one, always
+Testpilot instead times out then fails the offending test and moves on to the next one, always
 trying to finish in finite time and deliver a usable result. By default, the timeout is five
 seconds, but if you have a long-running test you can adjust it by calling `test.setTimeout()`
 with the desired number of milliseconds.
@@ -154,8 +154,8 @@ Testpilot supports all the normal Nodeunit assertions, plus one more:
 
 ### Reporters
 
-At present, Testpilot supports two result reporters, although more will appear in the near
-future:
+At present, Testpilot supports two result reporters, although more (and documentation on how to
+add new ones) will appear in the near future.
 
 #### Console Reporter
 
