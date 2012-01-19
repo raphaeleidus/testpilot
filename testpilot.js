@@ -62,6 +62,10 @@ nomnom.options({
         help: 'all tests, not just failures (console reporter)',
         flag: true
     },
+    'filter': {
+        help: 'only run test cases with names matching the given pattern',
+        hidden: true // not yet implemented
+    },
     'junitOutput': {
         help: 'file path for JUnit XML output, defaults to testlog.xml (junit reporter)',
         full: 'junit-output',
