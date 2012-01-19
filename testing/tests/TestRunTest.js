@@ -112,7 +112,7 @@ exports['running and reporting'] = {
 
                 test.done();
             }
-        );
+        ).end();
     }
 
 };

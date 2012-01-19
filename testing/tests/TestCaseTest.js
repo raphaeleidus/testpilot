@@ -686,7 +686,7 @@ exports['summary and reporting'] = {
 
                 test.done();
             }
-        );
+        ).end();
     },
 
     'run returns summary with assertion counts (immediate error)': function(test) {
