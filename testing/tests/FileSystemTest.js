@@ -80,6 +80,18 @@ exports['basics'] = {
 
     },
 
+    'listTree not found': function(test) {
+
+        var base = path.resolve(__dirname + '/../fixtures/Nothing');
+        fs.listTree(base).then(
+            function(list) {
+                test.deepEqual(list, []);
+                test.done();
+            }
+        ).end();
+
+    },
+
     'listTree basic': function(test) {
 
         var base = path.resolve(__dirname + '/../fixtures/TestsDir4');
