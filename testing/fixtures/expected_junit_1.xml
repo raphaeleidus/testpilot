@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-    <testsuite name="Test1Test" errors="0" failures="1" tests="2" time="0.05">
+    <testsuite name="Test1" errors="0" failures="1" tests="2" time="0.05">
         <testcase name="test1a" time="0.025">
         </testcase>
         <testcase name="test1b &amp; more" time="0.025">
@@ -8,7 +8,7 @@
             <failure message="AssertionError: these things should match" />
         </testcase>
     </testsuite>
-    <testsuite name="Test2Test" errors="1" failures="1" tests="3" time="0.075">
+    <testsuite name="Test2" errors="1" failures="1" tests="3" time="0.075">
         <testcase name="some tests : test2a" time="0.025">
         </testcase>
         <testcase name="some tests : test2b" time="0.025">
@@ -19,7 +19,7 @@
             <failure message="Error: panic" />
         </testcase>
     </testsuite>
-    <testsuite name="Test3Test" errors="0" failures="0" tests="1" time="0.025">
+    <testsuite name="Test3" errors="0" failures="0" tests="1" time="0.025">
         <testcase name="test3a" time="0.025">
         </testcase>
     </testsuite>

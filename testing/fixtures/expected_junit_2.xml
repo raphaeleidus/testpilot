@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-    <testsuite name="Test1Test" errors="1" failures="0" tests="1" time="0.025">
+    <testsuite name="Test1" errors="1" failures="0" tests="1" time="0.025">
         <testcase name="test1a" time="0.025">
             <failure message="Error: setUp failed" />
         </testcase>
