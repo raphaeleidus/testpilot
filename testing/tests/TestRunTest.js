@@ -113,6 +113,42 @@ exports['running and reporting'] = {
                 test.done();
             }
         ).end();
+    },
+
+    'run with no tests': function(test) {
+
+        var tr = new TestRun();
+        tr.addPath(fixturesDir + '/TestsDirNotThere').then(
+            function() {
+                return tr.run();
+            }
+        ).then(
+            function(summary) {
+
+                test.deepEqual(summary, {
+                    passed: true,
+                    aborted: false,
+                    suites: {
+                        failed: 0,
+                        total: 0
+                    },
+                    tests: {
+                        errored: 0,
+                        failed: 0,
+                        total: 0
+                    },
+                    assertions: {
+                        failed: 0,
+                        total: 0
+                    }
+                });
+
+                test.deepEqual(tr.getSummary(), summary);
+
+                test.done();
+            }
+        ).end();
     }
+
 
 };
