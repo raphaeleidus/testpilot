@@ -74,6 +74,13 @@ exports['reporting'] = {
                             test.done();
                         });
 
+                        MonkeyPatcher.wrap(reporter, 'getError', function(error) {
+                            if (error) {
+                                error.stack = '(stack goes here)';
+                            }
+                            return this.wrappedMethod(error);
+                        });
+
                         reporter.report(tr);
 
                     }
@@ -107,6 +114,13 @@ exports['reporting'] = {
                             test.equal(content, expected);
 
                             test.done();
+                        });
+
+                        MonkeyPatcher.wrap(reporter, 'getError', function(error) {
+                            if (error) {
+                                error.stack = '(stack goes here)';
+                            }
+                            return this.wrappedMethod(error);
                         });
 
                         reporter.report(tr);

@@ -2,7 +2,9 @@
 <testsuites>
     <testsuite name="Test1" errors="1" failures="0" tests="1" time="0.025">
         <testcase name="test1a" time="0.025">
-            <failure message="Error: setUp failed" />
+            <failure message="Error: setUp failed">
+(stack goes here)
+            </failure>
         </testcase>
     </testsuite>
 </testsuites>

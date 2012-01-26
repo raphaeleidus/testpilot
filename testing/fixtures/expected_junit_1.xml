@@ -4,19 +4,29 @@
         <testcase name="test1a" time="0.025">
         </testcase>
         <testcase name="test1b &amp; more" time="0.025">
-            <failure message="AssertionError: false == true" />
-            <failure message="AssertionError: these things should match" />
+            <failure message="AssertionError: false == true">
+(stack goes here)
+            </failure>
+            <failure message="AssertionError: these things should match">
+(stack goes here)
+            </failure>
         </testcase>
     </testsuite>
     <testsuite name="Test2" errors="1" failures="1" tests="3" time="0.075">
         <testcase name="some tests : test2a" time="0.025">
         </testcase>
         <testcase name="some tests : test2b" time="0.025">
-            <failure message="AssertionError: false == true" />
-            <failure message="AssertionError: 1 == 2" />
+            <failure message="AssertionError: false == true">
+(stack goes here)
+            </failure>
+            <failure message="AssertionError: 1 == 2">
+(stack goes here)
+            </failure>
         </testcase>
         <testcase name="some tests : test2c" time="0.025">
-            <failure message="Error: panic" />
+            <failure message="Error: panic">
+(stack goes here)
+            </failure>
         </testcase>
     </testsuite>
     <testsuite name="Test3" errors="0" failures="0" tests="1" time="0.025">
