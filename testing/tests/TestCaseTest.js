@@ -27,7 +27,7 @@
 var Q = require('q');
 var TestCase = require('../../lib/TestCase').TestCase;
 var AssertRecord = require('../../lib/AssertRecord').AssertRecord;
-
+var EventEmitter = require('events').EventEmitter;
 var MonkeyPatcher = require('capsela-util').MonkeyPatcher;
 
 exports['init'] = {
@@ -44,6 +44,9 @@ exports['init'] = {
 };
 
 exports['test function control'] = {
+
+    setUp: MonkeyPatcher.setUp,
+    tearDown: MonkeyPatcher.tearDown,
 
     'called with AssertRecord, stop after test.done': function(test) {
 
@@ -156,9 +159,34 @@ exports['test function control'] = {
 
     'follow-on error during test fails test': function(test) {
 
+        /*
+        ABOUT THIS TEST: The goal is to ensure that Testpilot sets up
+        a handler that will convert uncaught exceptions into test failures.
+        This is trickier than it would seem, since we want to run this
+        test of Testpilot *in* Testpilot itself, which will try to set up its
+        own handler (which happens right *after* the test function completes
+        provided it hasn't already ended), causing interference. We therefore
+        substitute a mock "process" object so that the inner Testpilot (code
+        under test) can be made to perceive an uncaughtException without
+        actually triggering a test failure from the perspective of the outer
+        Testpilot.
+        */
+
+        // cache the real "process" object
+        var realproc = process;
+
         var testFunc = function() {
-            process.nextTick(function() {
-                throw new Error('oh bother');
+            // create a mock process object and copy over the necessary functions
+            var proc = new EventEmitter;
+            proc.nextTick = realproc.nextTick;
+            proc.stdout = realproc.stdout;
+            // patch it in
+            MonkeyPatcher.patch(global, 'process', proc);
+
+            // fake an uncaught exception after the inner Testpilot
+            // has set up its handler
+            realproc.nextTick(function() {
+                proc.emit('uncaughtException', new Error('oh bother'));
             });
         };
 
@@ -216,11 +244,14 @@ exports['test function control'] = {
             }
         );
     }
-    
+
 };
 
 
 exports['setUp function control'] = {
+
+    setUp: MonkeyPatcher.setUp,
+    tearDown: MonkeyPatcher.tearDown,
 
     'setUp runs first, test waits for callback': function(test) {
 
@@ -307,9 +338,23 @@ exports['setUp function control'] = {
 
     'follow-on error during setUp fails test': function(test) {
 
-        var setUp = function(cb) {
-            process.nextTick(function() {
-                throw new Error('set it up yourself');
+        // NOTE: See the explanation in 'follow-on error during test fails test' above.
+
+        // cache the real "process" object
+        var realproc = process;
+
+        var setUp = function() {
+            // create a mock process object and copy over the necessary functions
+            var proc = new EventEmitter;
+            proc.nextTick = realproc.nextTick;
+            proc.stdout = realproc.stdout;
+            // patch it in
+            MonkeyPatcher.patch(global, 'process', proc);
+
+            // fake an uncaught exception after the inner Testpilot
+            // has set up its handler
+            realproc.nextTick(function() {
+                proc.emit('uncaughtException', new Error('set it up yourself'));
             });
         };
 
@@ -336,11 +381,7 @@ exports['setUp function control'] = {
     'setUp promise rejection fails test': function(test) {
 
         var setUp = function(cb) {
-            var done = Q.defer();
-            setTimeout(function() {
-                done.reject(new Error('never did set that up for you'));
-            }, 3);
-            return done.promise;
+            return Q.delay(Q.reject(new Error('never did set that up for you')), 3);
         };
 
         var testFunc = function() {
@@ -366,6 +407,9 @@ exports['setUp function control'] = {
 
 
 exports['tearDown function control'] = {
+
+    setUp: MonkeyPatcher.setUp,
+    tearDown: MonkeyPatcher.tearDown,
 
     'tearDown runs last, completion waits for callback': function(test) {
 
@@ -451,9 +495,23 @@ exports['tearDown function control'] = {
 
     'follow-on error during tearDown fails test': function(test) {
 
-        var tearDown = function(cb) {
-            process.nextTick(function() {
-                throw new Error('hiccup later');
+        // NOTE: See the explanation in 'follow-on error during test fails test' above.
+
+        // cache the real "process" object
+        var realproc = process;
+
+        var tearDown = function() {
+            // create a mock process object and copy over the necessary functions
+            var proc = new EventEmitter;
+            proc.nextTick = realproc.nextTick;
+            proc.stdout = realproc.stdout;
+            // patch it in
+            MonkeyPatcher.patch(global, 'process', proc);
+
+            // fake an uncaught exception after the inner Testpilot
+            // has set up its handler
+            realproc.nextTick(function() {
+                proc.emit('uncaughtException', new Error('hiccup later'));
             });
         };
 
@@ -478,11 +536,7 @@ exports['tearDown function control'] = {
     'tearDown promise rejection fails test': function(test) {
 
         var tearDown = function(cb) {
-            var done = Q.defer();
-            setTimeout(function() {
-                done.reject(new Error('actually, no'));
-            }, 3);
-            return done.promise;
+            return Q.delay(Q.reject(new Error('actually, no')), 3);
         };
 
         var testFunc = function() {
@@ -790,11 +844,7 @@ exports['summary and reporting'] = {
 
 exports['duration timing'] = {
 
-    setUp: function(cb) {
-        MonkeyPatcher.setUp();
-        cb();
-    },
-
+    setUp: MonkeyPatcher.setUp,
     tearDown: MonkeyPatcher.tearDown,
 
     'record duration': function(test) {

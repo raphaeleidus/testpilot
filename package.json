@@ -28,5 +28,8 @@
   "bin": {
       "testpilot" : "./bin/testpilot"
   },
+  "scripts": {
+      "test": "testpilot testing/tests"
+  },
   "preferGlobal": true
 }
