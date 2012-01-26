@@ -5,10 +5,10 @@
         </testcase>
         <testcase name="test1b &amp; more" time="0.025">
             <failure message="AssertionError: false == true">
-&lt;stack goes here&gt;
+&lt;&lt;stack goes here&gt;&gt;
             </failure>
             <failure message="AssertionError: these things should match">
-&lt;stack goes here&gt;
+&lt;&lt;stack goes here&gt;&gt;
             </failure>
         </testcase>
     </testsuite>
@@ -17,15 +17,15 @@
         </testcase>
         <testcase name="some tests : test2b" time="0.025">
             <failure message="AssertionError: false == true">
-&lt;stack goes here&gt;
+&lt;&lt;stack goes here&gt;&gt;
             </failure>
             <failure message="AssertionError: 1 == 2">
-&lt;stack goes here&gt;
+&lt;&lt;stack goes here&gt;&gt;
             </failure>
         </testcase>
         <testcase name="some tests : test2c" time="0.025">
             <failure message="Error: panic">
-&lt;stack goes here&gt;
+&lt;&lt;stack goes here&gt;&gt;
             </failure>
         </testcase>
     </testsuite>
