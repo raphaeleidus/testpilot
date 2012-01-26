@@ -76,7 +76,7 @@ exports['reporting'] = {
 
                         MonkeyPatcher.wrap(reporter, 'getError', function(error) {
                             if (error) {
-                                error.stack = '(stack goes here)';
+                                error.stack = '<stack goes here>';
                             }
                             return this.wrappedMethod(error);
                         });
@@ -118,7 +118,7 @@ exports['reporting'] = {
 
                         MonkeyPatcher.wrap(reporter, 'getError', function(error) {
                             if (error) {
-                                error.stack = '(stack goes here)';
+                                error.stack = '<stack goes here>';
                             }
                             return this.wrappedMethod(error);
                         });
