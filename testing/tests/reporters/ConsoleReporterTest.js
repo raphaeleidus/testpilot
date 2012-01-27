@@ -31,7 +31,7 @@ var ConsoleReporter = require('../../../lib/reporters/ConsoleReporter').reporter
 
 var MonkeyPatcher = require('capsela-util').MonkeyPatcher;
 var fs = require('../../../lib/FileSystem');
-var ansicolor = require('ansi-color');
+var Colorize = require('../../../lib/Colorize');
 
 var content;
 var reporter;
@@ -55,9 +55,9 @@ exports['reporting'] = {
             content += clw;
         });
 
-        // patch the ansi-color module to return HTML-esque tags rather than ANSI
+        // patch the colorizer module to return HTML-esque tags rather than ANSI
         // color codes, for easier test output comparison
-        MonkeyPatcher.patch(ansicolor, 'set', function(str, color) {
+        MonkeyPatcher.patch(Colorize, 'wrapString', function(str, color) {
             return '<'+color+'>'+str+'</'+color+'>';
         });
 

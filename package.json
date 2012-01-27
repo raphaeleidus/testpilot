@@ -21,8 +21,7 @@
   "dependencies": {
       "capsela-util": ">=1.0.1",
       "q": ">=0.8.0",
-      "nomnom": ">=1.5.1",
-      "ansi-color": ">=0.2.1"
+      "nomnom": ">=1.5.1"
   },
   "devDependencies": {},
   "bin": {
