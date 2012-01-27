@@ -3,7 +3,7 @@
   "name": "testpilot",
   "description": "Promise-savvy testing framework.",
   "keywords": [ "testing", "unit testing", "promise", "Q API" ],
-  "version": "0.2.4",
+  "version": "0.3.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/capsela/testpilot.git"
