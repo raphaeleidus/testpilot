@@ -51,8 +51,7 @@ nomnom.options({
     'stopOnFailure': {
         help: 'stop immediately if a test fails',
         flag: true,
-        full: 'stop-on-failure',
-        hidden: true // not yet implemented
+        full: 'stop-on-failure'
     },
     plain: {
         help: 'output only plain text, no colors or styles (console reporter)',
@@ -83,7 +82,6 @@ nomnom.options({
 ).colors();
 
 var opts = nomnom.parse();
-
 
 var reporters = opts.reporter;
 if (typeof reporters == 'string') {
@@ -119,7 +117,7 @@ Q.all(opts.paths.map(function(p) {
             return 1;
         }
 
-        return run.run().then(
+        return run.run(opts).then(
             function(summary) {
 
                 var exitCode = 0;
