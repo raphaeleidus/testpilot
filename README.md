@@ -38,7 +38,7 @@ Writing Tests
 -------------
 
 Testpilot was created (and continues to evolve rapidly) with the goal of testing
-[Capsela](https://github.com/Sitelier/capsela) and projects built upon it. Those
+[Capsela](https://github.com/capsela/capsela) and projects built upon it. Those
 projects' tests used [Nodeunit](https://github.com/caolan/nodeunit) originally,
 so nodeunit compatibility was required from the outset. Valid Nodeunit tests are
 valid Testpilot tests as well, with only a few caveats:
@@ -49,7 +49,7 @@ will need adjustment. This is unlikely to ever bother anybody.
 - Testpilot doesn't need Nodeunit's `testCase` function, but then again neither does
 Nodeunit.
 
-If you are already using a Nodeunit with the default human-readable reporter, then you
+If you are already using Nodeunit with the default human-readable reporter, then you
 probably don't need to change anything. You can scroll down to **Where Testpilot is
 Different**. Otherwise, read on for a quick synopsis.
 
@@ -93,7 +93,7 @@ that better fit the needs of promise-based asynchronous code (specifically that 
 the [Q](https://github.com/kriskowal/q) library). Testing promise-based code with Nodeunit
 frequently leads to patterns like this:
 
-    'test someFunc's return value': function(test) {
+    "test someFunc's return value": function(test) {
         // someFunc is asynchronous, returns a promise
         someFunc(5).then(
             function(retVal) {  // make sure the return value is correct
@@ -110,7 +110,7 @@ frequently leads to patterns like this:
 This is complicated because the promise returned by `someFunc` must be explicitly resolved
 before the equality assertion. Testpilot knows about promises, so you can do this instead:
 
-    'test someFunc's return value': function(test) {
+    "test someFunc's return value": function(test) {
         test.equal(someFunc(5), 12);
         test.done();
     }
@@ -122,7 +122,7 @@ is rejected or takes too long to resolve, the test fails with an appropriate err
 If you don't actually care about the *value* of a promise, but only that it resolves, you
 can simplify even further:
 
-    'test someFunc succeeds': function() {
+    "test someFunc succeeds": function() {
         return someFunc(5);
     }
 
