@@ -51,6 +51,19 @@ exports['path manipulation'] = {
         );
     },
 
+    'addPath with coffee file': function(test) {
+        test.expect(1);
+
+        var tr = new TestRun();
+
+        tr.addPath(fixturesDir + '/FileATest.coffee').then(
+            function(files) {
+                test.deepEqual(files, [ path.resolve(fixturesDir + '/FileATest.coffee') ]);
+                test.done();
+            }
+        );
+    },
+
     'addPath with directory': function(test) {
         test.expect(2);
 
@@ -66,7 +79,9 @@ exports['path manipulation'] = {
                 var expected = [
                     path.resolve(fixturesDir + '/TestsDir1/TestBTest.js'),
                     path.resolve(fixturesDir + '/TestsDir1/TestCTest.js'),
-                    path.resolve(fixturesDir + '/TestsDir1/subdir/TestATest.js')
+                    path.resolve(fixturesDir + '/TestsDir1/TestDTest.coffee'),
+                    path.resolve(fixturesDir + '/TestsDir1/subdir/TestATest.js'),
+                    path.resolve(fixturesDir + '/TestsDir1/subdir/TestETest.coffee')
                 ];
 
                 test.deepEqual(files, expected);

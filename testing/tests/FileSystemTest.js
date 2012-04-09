@@ -59,7 +59,7 @@ exports['basics'] = {
 
         fs.list(__dirname + '/../fixtures/TestsDir1').then(
             function(list) {
-                test.deepEqual(list, [ 'subdir', 'TestBTest.js', 'TestCTest.js' ]);
+                test.deepEqual(list, [ 'subdir', 'TestBTest.js', 'TestCTest.js', 'TestDTest.coffee' ]);
                 return fs.list(__dirname + '/../fixtures/FileATest.js');
             }
         ).then(
