@@ -272,6 +272,10 @@ exports['reporting'] = {
             reporter.formatOperand({ 1: 'monkey', 2: undefined }),
             '{\n   "1": "monkey",\n   "2": undefined\n}'
         );
+        test.equal(
+            reporter.formatOperand({ 1: 'monkey', 2: null }),
+            '{\n   "1": "monkey",\n   "2": null\n}'
+        );
         test.done();
     },
 
