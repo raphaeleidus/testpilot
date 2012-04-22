@@ -80,17 +80,20 @@ exports['basics'] = {
 
     'test init with coffeescript suite': function(test) {
 
-        var ts = new TestSuite(fixturesDir + '/CoffeeScriptFileTest.coffee');
+        if (TestSuite.COFFEE_SUPPORTED) {
 
-        test.equal(ts.getName(), 'CoffeeScriptFileTest');
-        test.equal(ts.getResult(), TestSuite.UNTESTED);
+            var ts = new TestSuite(fixturesDir + '/CoffeeScriptFileTest.coffee');
 
-        var tests = ts.getTests();
-        test.equal(tests.length, 3);
+            test.equal(ts.getName(), 'CoffeeScriptFileTest');
+            test.equal(ts.getResult(), TestSuite.UNTESTED);
 
-        test.equal(tests[0].getName(), 'some group : test something');
-        test.equal(tests[1].getName(), 'some group : test something else');
-        test.equal(tests[2].getName(), 'standAloneTest');
+            var tests = ts.getTests();
+            test.equal(tests.length, 3);
+
+            test.equal(tests[0].getName(), 'some group : test something');
+            test.equal(tests[1].getName(), 'some group : test something else');
+            test.equal(tests[2].getName(), 'standAloneTest');
+        }
 
         test.done();
     },
