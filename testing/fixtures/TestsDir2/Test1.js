@@ -29,6 +29,10 @@ exports.test1a = function(test) {
     test.done();
 };
 
+exports['to be skipped 1'] = function(test) {
+    test.skip();
+};
+
 exports['test1b & more'] = function(test) {
     test.ok(true);
     test.ok(false);

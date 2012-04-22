@@ -30,6 +30,37 @@ var path = require('path');
 
 var ar;
 
+exports["basics"] = {
+
+    'init': function(test) {
+
+        var ar = new AssertRecord();
+
+        test.equal(ar.closed, false);
+        test.done();
+    },
+
+    'close': function(test) {
+
+        var ar = new AssertRecord();
+
+        ar.ok(true, 'should be true');
+
+        ar.close();
+
+        ar.ok(true, 'should be true');
+
+        ar.getAssertions().then(
+            function(assertions) {
+
+                test.equal(assertions.length, 1);
+
+                test.done();
+            }
+        );
+    }
+};
+
 exports['assertions'] = {
 
     setUp: function(cb) {

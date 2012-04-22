@@ -37,8 +37,11 @@ exports['some tests'] = {
         test.done();
     },
 
+    toBeSkipped2: function(test) {
+        test.skip();
+    },
+
     test2c: function(test) {
         throw new Error('panic');
     }
-
 };

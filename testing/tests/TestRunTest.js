@@ -115,7 +115,8 @@ exports['running and reporting'] = {
                     tests: {
                         errored: 1,
                         failed: 2,
-                        total: 6
+                        skipped: 3,
+                        total: 9
                     },
                     assertions: {
                         failed: 4,
@@ -150,6 +151,7 @@ exports['running and reporting'] = {
                     tests: {
                         errored: 0,
                         failed: 0,
+                        skipped: 0,
                         total: 0
                     },
                     assertions: {

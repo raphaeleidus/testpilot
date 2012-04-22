@@ -40,7 +40,6 @@ exports['init'] = {
 
         test.done();
     }
-
 };
 
 exports['test function control'] = {
@@ -115,6 +114,7 @@ exports['test function control'] = {
                 test.deepEqual(summary, {
                     passed: false,
                     errored: true,
+                    skipped: false,
                     aborted: false,
                     assertions: {
                         total: 1,
@@ -145,6 +145,7 @@ exports['test function control'] = {
                 test.deepEqual(summary, {
                     passed: false,
                     errored: true,
+                    skipped: false,
                     aborted: false,
                     assertions: {
                         total: 0,
@@ -202,6 +203,7 @@ exports['test function control'] = {
                 test.deepEqual(summary, {
                     passed: false,
                     errored: true,
+                    skipped: false,
                     aborted: false,
                     assertions: {
                         total: 0,
@@ -233,6 +235,7 @@ exports['test function control'] = {
                 test.deepEqual(summary, {
                     passed: false,
                     errored: true,
+                    skipped: false,
                     aborted: false,
                     assertions: {
                         total: 0,
@@ -731,6 +734,7 @@ exports['summary and reporting'] = {
                 test.deepEqual(summary, {
                     passed: false,
                     errored: false,
+                    skipped: false,
                     aborted: false,
                     assertions: {
                         total: 5,
@@ -762,6 +766,7 @@ exports['summary and reporting'] = {
                 test.deepEqual(summary, {
                     passed: false,
                     errored: true,
+                    skipped: false,
                     aborted: false,
                     assertions: {
                         total: 2,
@@ -793,6 +798,7 @@ exports['summary and reporting'] = {
                 test.deepEqual(summary, {
                     passed: false,
                     errored: true,
+                    skipped: false,
                     aborted: false,
                     assertions: {
                         total: 2,
@@ -825,6 +831,7 @@ exports['summary and reporting'] = {
                 test.deepEqual(summary, {
                     passed: true,
                     errored: false,
+                    skipped: false,
                     aborted: false,
                     assertions: {
                         total: 2,
@@ -841,6 +848,43 @@ exports['summary and reporting'] = {
 
 };
 
+exports["skipping tests"] = {
+
+    "test skip": function(test) {
+
+        var testFunc = function(test) {
+
+            test.ok(true);
+
+            test.skip();
+
+            test.ok(false);
+        };
+
+        var tc = new TestCase('test', testFunc);
+
+        tc.run().then(
+            function(summary) {
+
+                test.equal(tc.getResult(), TestCase.PASSED);
+                test.equal(tc.getFailure(), undefined);
+
+                test.deepEqual(summary, {
+                    passed: true,
+                    errored: false,
+                    skipped: true,
+                    aborted: false,
+                    assertions: {
+                        total: 1,
+                        failed: 0
+                    }
+                });
+
+                test.done();
+            }
+        );
+    }
+};
 
 exports['duration timing'] = {
 

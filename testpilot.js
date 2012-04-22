@@ -163,6 +163,13 @@ Q.all(opts.paths.map(function(p) {
 
                         exitCode = 1;
                     }
+
+                    if (summary.tests.skipped) {
+                        console.log('%s %s tests',
+                            Colorize.format('SKIPPED', 'yellow+bold'),
+                            summary.tests.skipped);
+                    }
+
                     console.log();
 
                     return exitCode;

@@ -28,3 +28,7 @@ exports.test3a = function(test) {
     test.ok(true);
     test.done();
 };
+
+exports.toBeSkipped3 = function(test) {
+    test.skip();
+};
