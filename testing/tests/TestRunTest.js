@@ -109,14 +109,14 @@ exports['running and reporting'] = {
                     passed: false,
                     aborted: false,
                     suites: {
-                        failed: 2,
-                        total: 3
+                        failed: 3,
+                        total: 4
                     },
                     tests: {
-                        errored: 1,
+                        errored: 2,
                         failed: 2,
                         skipped: 3,
-                        total: 9
+                        total: 10
                     },
                     assertions: {
                         failed: 4,
