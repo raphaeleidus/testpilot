@@ -866,7 +866,7 @@ exports["skipping tests"] = {
         tc.run().then(
             function(summary) {
 
-                test.equal(tc.getResult(), TestCase.PASSED);
+                test.equal(tc.getResult(), TestCase.SKIPPED);
                 test.equal(tc.getFailure(), undefined);
 
                 test.deepEqual(summary, {
