@@ -84,7 +84,7 @@ exports['run control'] = {
         SubSet.prototype.run = function(options) {
             // make sure the options are passed down
             test.deepEqual(options, { monkeys: 'affirmative' });
-            return Q.ref({ sn: this.sn });
+            return Q.resolve({ sn: this.sn });
         };
 
 
@@ -124,7 +124,7 @@ exports['run control'] = {
         }
         SubSet.prototype.run = function(options) {
             // make sure the options are passed down
-            return Q.ref({ sn: this.sn, passed: this.sn != 93 });
+            return Q.resolve({ sn: this.sn, passed: this.sn != 93 });
         };
 
 

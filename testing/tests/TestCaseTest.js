@@ -271,7 +271,7 @@ exports['setUp function control'] = {
         var testFunc = function() {
             testStarted = true;
             test.ok(setUpRun);
-            return Q.ref();
+            return Q.resolve();
         };
 
         var tc = new TestCase('test', testFunc, setUp);
@@ -300,7 +300,7 @@ exports['setUp function control'] = {
         var testFunc = function() {
             testStarted = true;
             test.ok(setUpRun);
-            return Q.ref();
+            return Q.resolve();
         };
 
         var tc = new TestCase('test', testFunc, setUp);
@@ -321,7 +321,7 @@ exports['setUp function control'] = {
 
         var testFunc = function() {
             test.ok(false, 'should not be here');
-            return Q.ref();
+            return Q.resolve();
         };
 
 
@@ -363,7 +363,7 @@ exports['setUp function control'] = {
 
         var testFunc = function() {
             test.ok(false, 'should not be here');
-            return Q.ref();
+            return Q.resolve();
         };
 
 
@@ -389,7 +389,7 @@ exports['setUp function control'] = {
 
         var testFunc = function() {
             test.ok(false, 'should not be here');
-            return Q.ref();
+            return Q.resolve();
         };
 
         var tc = new TestCase('test', testFunc, setUp);
@@ -428,7 +428,7 @@ exports['tearDown function control'] = {
 
         var testFunc = function() {
             test.ok(!tearDownRun);
-            return Q.ref();
+            return Q.resolve();
         };
 
         var tc = new TestCase('test', testFunc, null, tearDown);
@@ -458,7 +458,7 @@ exports['tearDown function control'] = {
 
         var testFunc = function() {
             test.ok(!tearDownRun);
-            return Q.ref();
+            return Q.resolve();
         };
 
         var tc = new TestCase('test', testFunc, null, tearDown);
@@ -479,7 +479,7 @@ exports['tearDown function control'] = {
         };
 
         var testFunc = function() {
-            return Q.ref();
+            return Q.resolve();
         };
 
         var tc = new TestCase('test', testFunc, null, tearDown);
@@ -519,7 +519,7 @@ exports['tearDown function control'] = {
         };
 
         var testFunc = function() {
-            return Q.ref();
+            return Q.resolve();
         };
 
         var tc = new TestCase('test', testFunc, null, tearDown);
@@ -543,7 +543,7 @@ exports['tearDown function control'] = {
         };
 
         var testFunc = function() {
-            return Q.ref();
+            return Q.resolve();
         };
 
         var tc = new TestCase('test', testFunc, null, tearDown);

@@ -85,9 +85,9 @@ exports['assertions'] = {
 
         ar.ok(true, 'should be true');
         ar.ok(false, 'should also be true');
-        ar.ok(Q.ref(true), 'should eventually be true');
-        ar.ok(Q.ref(false), 'should also eventually be true');
-        ar.immediateOk(Q.ref(false), 'should immediately be true');
+        ar.ok(Q.resolve(true), 'should eventually be true');
+        ar.ok(Q.resolve(false), 'should also eventually be true');
+        ar.immediateOk(Q.resolve(false), 'should immediately be true');
 
         ar.getAssertions().then(
             function(assertions) {
@@ -112,18 +112,18 @@ exports['assertions'] = {
         ar.equal(2, 3, 'should also be equal');
         ar.notEqual(3, 3, 'should also not be equal');
 
-        ar.equal(2, Q.ref(2), 'should eventually be equal');
-        ar.notEqual(2, Q.ref(3), 'should eventually not be equal');
+        ar.equal(2, Q.resolve(2), 'should eventually be equal');
+        ar.notEqual(2, Q.resolve(3), 'should eventually not be equal');
 
-        ar.equal(Q.ref(2), 3, 'should also eventually be equal');
-        ar.notEqual(Q.ref(3), 3, 'should also eventually not be equal');
+        ar.equal(Q.resolve(2), 3, 'should also eventually be equal');
+        ar.notEqual(Q.resolve(3), 3, 'should also eventually not be equal');
 
         ar.immediateEqual(2, 2, 'should immediately be equal');
         ar.immediateNotEqual(2, 3, 'should immediately not be equal');
 
         // @TODO: figure out how this should work with respect to promises' valueOf() method
-        ar.immediateEqual(Q.ref(2), 2, 'should immediately be equal');
-        ar.immediateNotEqual(Q.ref(2), Q.ref(2), 'should immediately not be equal');
+        ar.immediateEqual(Q.resolve(2), 2, 'should immediately be equal');
+        ar.immediateNotEqual(Q.resolve(2), Q.resolve(2), 'should immediately not be equal');
 
         ar.getAssertions().then(
             function(assertions) {
@@ -160,11 +160,11 @@ exports['assertions'] = {
         ar.deepEqual([ 1, 3 ], [ 1, 2 ], 'should also be equal');
         ar.notDeepEqual([ 1, 3 ], [ 1, 2 ], 'should also not be equal');
 
-        ar.deepEqual([ 1, 2 ], Q.ref([ 1, 2 ]), 'should eventually be equal');
-        ar.notDeepEqual([ 1, 2 ], Q.ref([ 1, 2 ]), 'should eventually not be equal');
+        ar.deepEqual([ 1, 2 ], Q.resolve([ 1, 2 ]), 'should eventually be equal');
+        ar.notDeepEqual([ 1, 2 ], Q.resolve([ 1, 2 ]), 'should eventually not be equal');
 
-        ar.deepEqual(Q.ref([ 1, 3 ]), [ 1, 2 ], 'should also eventually be equal');
-        ar.notDeepEqual(Q.ref([ 1, 3 ]), [ 1, 2 ], 'should also eventually not be equal');
+        ar.deepEqual(Q.resolve([ 1, 3 ]), [ 1, 2 ], 'should also eventually be equal');
+        ar.notDeepEqual(Q.resolve([ 1, 3 ]), [ 1, 2 ], 'should also eventually not be equal');
 
         var a = [ 1, 3 ];
         var b = [ 1, 3 ];
@@ -202,11 +202,11 @@ exports['assertions'] = {
         ar.strictEqual(false, 0, 'should also be equal');
         ar.notStrictEqual(false, 0, 'should also not be equal');
 
-        ar.strictEqual(3, Q.ref(3), 'should eventually be equal');
-        ar.notStrictEqual(3, Q.ref(3), 'should eventually not be equal');
+        ar.strictEqual(3, Q.resolve(3), 'should eventually be equal');
+        ar.notStrictEqual(3, Q.resolve(3), 'should eventually not be equal');
 
-        ar.strictEqual(Q.ref('3'), 3, 'should also eventually be equal');
-        ar.notStrictEqual(Q.ref('3'), 3, 'should also eventually not be equal');
+        ar.strictEqual(Q.resolve('3'), 3, 'should also eventually be equal');
+        ar.notStrictEqual(Q.resolve('3'), 3, 'should also eventually not be equal');
 
         ar.getAssertions().then(
             function(assertions) {
@@ -278,8 +278,8 @@ exports['assertions'] = {
 
     rejects: function(test) {
 
-        ar.rejects(Q.ref(5));
-        ar.rejects(Q.ref(10), null, 'this can never be');
+        ar.rejects(Q.resolve(5));
+        ar.rejects(Q.resolve(10), null, 'this can never be');
         ar.rejects(Q.reject(new Error('error for you!')));
 
         // the following tests both the error validator function and, more subtly,
