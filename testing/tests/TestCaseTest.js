@@ -124,7 +124,7 @@ exports['test function control'] = {
 
                 test.done();
             }
-        ).end();
+        ).done();
     },
 
     'direct error during test fails test': function(test) {
@@ -744,7 +744,7 @@ exports['summary and reporting'] = {
 
                 test.done();
             }
-        ).end();
+        ).done();
     },
 
     'run returns summary with assertion counts (immediate error)': function(test) {
@@ -899,14 +899,26 @@ exports['duration timing'] = {
 
         var tc = new TestCase('test', testFunc);
 
-        var times = [ 4, 10 ];
+        // This is fragile, and may break as a side effect of Node version changes or
+        // valid changes to the logic in TestCase. We want to know that TestCase calls
+        // Date.now() at the beginning and end of a the test, and that he duration is
+        // the span between them. The problem is that Node's setTimeout (which TestCase
+        // uses) calls Date.now internally, and uses the "public" version that we're
+        // monkey patching here. We therefore are not confident that the monkey patched
+        // version will be called only twice, and can't seed it with precise test data
+        // as a result. As of Node v0.10.18 it's called three times, and this test
+        // attempts to be robust by assuming only that the code under test will call
+        // it twice without anything in between.
+
+        var time = 100;
         MonkeyPatcher.patch(Date, 'now', function() {
-            return times.shift();
+            time += 42;
+            return time;
         });
 
         tc.run().then(
             function(summary) {
-                test.equal(tc.getDuration(), 6);
+                test.equal(tc.getDuration(), 42);
                 test.done();
             }
         );
@@ -918,9 +930,12 @@ exports['duration timing'] = {
         // if TestCase isn't careful and uses Date.now() directly, this
         // test will break it
 
-        var times = [ 4, 10 ];
+        // but see caveat in the test above this one
+
+        var time = 100;
         MonkeyPatcher.patch(Date, 'now', function() {
-            return times.shift();
+            time += 42;
+            return time;
         });
 
         var origDateNow = Date.now;
@@ -944,7 +959,7 @@ exports['duration timing'] = {
 
         tc.run().then(
             function(summary) {
-                test.equal(tc.getDuration(), 6);
+                test.equal(tc.getDuration(), 42);
                 test.done();
             }
         );

@@ -1,9 +1,9 @@
 {
-  "author": "Chris Osborn <chris.osborn@sitelier.com>",
+  "author": "Chris Osborn <csosborn@gmail.com>",
   "name": "testpilot",
   "description": "Promise-savvy testing framework.",
   "keywords": [ "testing", "unit testing", "promise", "Q API" ],
-  "version": "0.3.1",
+  "version": "0.4.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/capsela/testpilot.git"
@@ -16,11 +16,11 @@
     }
   ],
   "engines": {
-    "node": "~0.6.0"
+    "node": ">=0.10.0"
   },
   "dependencies": {
       "capsela-util": ">=1.0.1",
-      "q": ">=0.8.0",
+      "q": ">=0.8.12",
       "nomnom": ">=1.5.1"
   },
   "devDependencies": {},

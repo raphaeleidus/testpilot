@@ -184,5 +184,5 @@ Q.all(opts.paths.map(function(p) {
             process.exit(exitCode);
         }, 10);
     }
-).end();    // terminate the chain to ensure all errors are reported. An error reported here
-            // generally indicates a bug in Testpilot, not in the code under test
+).done();    // terminate the chain to ensure all errors are reported. An error reported here
+             // generally indicates a bug in Testpilot, not in the code under test

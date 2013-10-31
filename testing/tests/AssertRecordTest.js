@@ -78,16 +78,16 @@ exports['assertions'] = {
 
                 test.done();
             }
-        );
+        ).done();
     },
 
     'ok': function(test) {
 
         ar.ok(true, 'should be true');
         ar.ok(false, 'should also be true');
-        ar.ok(Q.resolve(true), 'should eventually be true');
-        ar.ok(Q.resolve(false), 'should also eventually be true');
-        ar.immediateOk(Q.resolve(false), 'should immediately be true');
+        ar.ok(Q(true), 'should eventually be true');
+        ar.ok(Q(false), 'should also eventually be true');
+        ar.immediateOk(Q(false), 'should immediately be true');
 
         ar.getAssertions().then(
             function(assertions) {
@@ -101,7 +101,7 @@ exports['assertions'] = {
 
                 test.done();
             }
-        );
+        ).done();
     },
 
     'equal': function(test) {
@@ -149,7 +149,7 @@ exports['assertions'] = {
 
                 test.done();
             }
-        );
+        ).done();
     },
 
     'deepEqual and notDeepEqual': function(test) {
@@ -191,7 +191,7 @@ exports['assertions'] = {
 
                 test.done();
             }
-        );
+        ).done();
     },
 
     'strictEqual and notStrictEqual': function(test) {
@@ -226,7 +226,7 @@ exports['assertions'] = {
 
                 test.done();
             }
-        );
+        ).done();
     },
 
     'throws and doesNotThrow': function(test) {
@@ -244,12 +244,12 @@ exports['assertions'] = {
                 test.equals(assertions[0].error, undefined);
                 test.equals(assertions[1].error.message, 'hiccup');
 
-                test.equals(assertions[2].error.message, undefined);
+                test.equals(assertions[2].error.message, 'Missing expected exception. should hiccup');
                 test.equals(assertions[3].error, undefined);
 
                 test.done();
             }
-        );
+        ).done();
     },
 
     'ifError': function(test) {
@@ -266,7 +266,7 @@ exports['assertions'] = {
 
                 test.done();
             }
-        );
+        ).done();
     },
 
     'expect and getExpected': function(test) {
@@ -302,7 +302,7 @@ exports['assertions'] = {
 
                 test.done();
             }
-        );
+        ).done();
     }
 
 };
@@ -321,7 +321,7 @@ exports['deferred arguments'] = {
                 test.equal(assertions[0].error.message, 'timed out waiting for assertion arguments to resolve');
                 test.done();
             }
-        );
+        ).done();
     },
 
     'argument promise rejection results in assertion failure': function(test) {
@@ -334,7 +334,7 @@ exports['deferred arguments'] = {
                 test.equal(assertions[0].error.message, 'not okay at all');
                 test.done();
             }
-        );
+        ).done();
     }
 
 };
@@ -366,7 +366,7 @@ exports['assert location tracking'] = {
 
                 test.done();
             }
-        );
+        ).done();
 
     }
 

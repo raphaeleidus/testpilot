@@ -128,7 +128,7 @@ exports['running and reporting'] = {
 
                 test.done();
             }
-        ).end();
+        ).done();
     },
 
     'run with no tests': function(test) {
@@ -164,7 +164,7 @@ exports['running and reporting'] = {
 
                 test.done();
             }
-        ).end();
+        ).done();
     }
 
 

@@ -239,11 +239,11 @@ exports['reporting'] = {
                 };
 
                 test.equal(reporter.reportAssertionFailure(ok1, 2),
-                    '  AssertionError at (location)\n\nfalse == true');
+                    '  AssertionError at (location): false == true\n\nfalse == true');
                 test.equal(reporter.reportAssertionFailure(ok2, 2),
                     '  AssertionError at (location): should be ok\n\nfalse == true');
                 test.equal(reporter.reportAssertionFailure(equal1, 2),
-                    '  AssertionError at (location)\n\n1 == 2');
+                    '  AssertionError at (location): 1 == 2\n\n1 == 2');
 
             }
         );

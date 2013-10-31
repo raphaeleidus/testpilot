@@ -59,7 +59,8 @@ exports['basics'] = {
 
         fs.list(__dirname + '/../fixtures/TestsDir1').then(
             function(list) {
-                test.deepEqual(list, [ 'subdir', 'TestBTest.js', 'TestCTest.js', 'TestDTest.coffee' ]);
+                list.sort();
+                test.deepEqual(list, [ 'TestBTest.js', 'TestCTest.js', 'TestDTest.coffee', 'subdir' ]);
                 return fs.list(__dirname + '/../fixtures/FileATest.js');
             }
         ).then(
@@ -88,7 +89,7 @@ exports['basics'] = {
                 test.deepEqual(list, []);
                 test.done();
             }
-        ).end();
+        ).done();
 
     },
 
@@ -112,7 +113,7 @@ exports['basics'] = {
 
                 test.done();
             }
-        ).end();
+        ).done();
 
     },
 
@@ -133,7 +134,7 @@ exports['basics'] = {
 
                 test.done();
             }
-        ).end();
+        ).done();
 
     },
 
@@ -154,7 +155,7 @@ exports['basics'] = {
 
                 test.done();
             }
-        ).end();
+        ).done();
 
     }
 
