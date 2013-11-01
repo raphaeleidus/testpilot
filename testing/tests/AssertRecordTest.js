@@ -112,18 +112,18 @@ exports['assertions'] = {
         ar.equal(2, 3, 'should also be equal');
         ar.notEqual(3, 3, 'should also not be equal');
 
-        ar.equal(2, Q.resolve(2), 'should eventually be equal');
-        ar.notEqual(2, Q.resolve(3), 'should eventually not be equal');
+        ar.equal(2, Q(2), 'should eventually be equal');
+        ar.notEqual(2, Q(3), 'should eventually not be equal');
 
-        ar.equal(Q.resolve(2), 3, 'should also eventually be equal');
-        ar.notEqual(Q.resolve(3), 3, 'should also eventually not be equal');
+        ar.equal(Q(2), 3, 'should also eventually be equal');
+        ar.notEqual(Q(3), 3, 'should also eventually not be equal');
 
         ar.immediateEqual(2, 2, 'should immediately be equal');
         ar.immediateNotEqual(2, 3, 'should immediately not be equal');
 
         // @TODO: figure out how this should work with respect to promises' valueOf() method
-        ar.immediateEqual(Q.resolve(2), 2, 'should immediately be equal');
-        ar.immediateNotEqual(Q.resolve(2), Q.resolve(2), 'should immediately not be equal');
+        ar.immediateEqual(Q(2), 2, 'should immediately be equal');
+        ar.immediateNotEqual(Q(2), Q(2), 'should immediately not be equal');
 
         ar.getAssertions().then(
             function(assertions) {
@@ -160,11 +160,11 @@ exports['assertions'] = {
         ar.deepEqual([ 1, 3 ], [ 1, 2 ], 'should also be equal');
         ar.notDeepEqual([ 1, 3 ], [ 1, 2 ], 'should also not be equal');
 
-        ar.deepEqual([ 1, 2 ], Q.resolve([ 1, 2 ]), 'should eventually be equal');
-        ar.notDeepEqual([ 1, 2 ], Q.resolve([ 1, 2 ]), 'should eventually not be equal');
+        ar.deepEqual([ 1, 2 ], Q([ 1, 2 ]), 'should eventually be equal');
+        ar.notDeepEqual([ 1, 2 ], Q([ 1, 2 ]), 'should eventually not be equal');
 
-        ar.deepEqual(Q.resolve([ 1, 3 ]), [ 1, 2 ], 'should also eventually be equal');
-        ar.notDeepEqual(Q.resolve([ 1, 3 ]), [ 1, 2 ], 'should also eventually not be equal');
+        ar.deepEqual(Q([ 1, 3 ]), [ 1, 2 ], 'should also eventually be equal');
+        ar.notDeepEqual(Q([ 1, 3 ]), [ 1, 2 ], 'should also eventually not be equal');
 
         var a = [ 1, 3 ];
         var b = [ 1, 3 ];
@@ -202,11 +202,11 @@ exports['assertions'] = {
         ar.strictEqual(false, 0, 'should also be equal');
         ar.notStrictEqual(false, 0, 'should also not be equal');
 
-        ar.strictEqual(3, Q.resolve(3), 'should eventually be equal');
-        ar.notStrictEqual(3, Q.resolve(3), 'should eventually not be equal');
+        ar.strictEqual(3, Q(3), 'should eventually be equal');
+        ar.notStrictEqual(3, Q(3), 'should eventually not be equal');
 
-        ar.strictEqual(Q.resolve('3'), 3, 'should also eventually be equal');
-        ar.notStrictEqual(Q.resolve('3'), 3, 'should also eventually not be equal');
+        ar.strictEqual(Q('3'), 3, 'should also eventually be equal');
+        ar.notStrictEqual(Q('3'), 3, 'should also eventually not be equal');
 
         ar.getAssertions().then(
             function(assertions) {
@@ -278,8 +278,8 @@ exports['assertions'] = {
 
     rejects: function(test) {
 
-        ar.rejects(Q.resolve(5));
-        ar.rejects(Q.resolve(10), null, 'this can never be');
+        ar.rejects(Q(5));
+        ar.rejects(Q(10), null, 'this can never be');
         ar.rejects(Q.reject(new Error('error for you!')));
 
         // the following tests both the error validator function and, more subtly,
